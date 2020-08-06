@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  
+    <meta name="description" content="personnal blog">
+  
+
+  
+    <meta name="keywords" content="blog；computer science；CTF；">
+  
+
+  
+    <meta name="author" content="Ray Wong">
+  
+
+  
+
+  
+
+  <title>Hexo+Github+Vervel的部署与Hexo的常用指令 | heacsing&#39;s Lounge</title>
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.6/styles/default.min.css" rel="stylesheet">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <div class="root-container">
+    <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          heacsing&#39;s Lounge
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">HOME</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">ABOUT</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">LINK</a></li>
+        
+          <li class="navbar-list-item"><a href="/tags">TAGS</a></li>
+        
+          <li class="navbar-list-item"><a href="/categories">CATEGORIES</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    
+<!-- header container -->
+<header class="header-container post">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-image" style="background-image: url(https://qiniu.miiiku.xyz/src/images/banner.jpg)"></div>
+      <div class="post-text">
+        <div class="type-wrap">
+          <a class="article-category-link" href="/categories/application/">application</a>
+        </div>
+        <h1 class="title-wrap">Hexo+Github+Vervel的部署与Hexo的常用指令</h1>
+        <h2 class="title-sub-wrap">
+          <strong>Ray Wong</strong>
+          <span>发布于</span>
+          
+  <a href="javascript:;" class="article-date">
+    <time datetime="2020-08-06T05:32:17.000Z" itemprop="datePublished">2020-08-06</time>
+  </a>
+
+        </h2>
+      </div>
+    </div>
+  
+
+  
+  
+
+  </header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+
+<div class="body-container">
+  <article class="content-container article-container">
+    <div class="article-content">
+      
+      
+
+      <section class="article-entry">
+        <h1 id="Hexo-Github-Vervel的部署与Hexo的常用指令"><a href="#Hexo-Github-Vervel的部署与Hexo的常用指令" class="headerlink" title="Hexo+Github+Vervel的部署与Hexo的常用指令"></a>Hexo+Github+Vervel的部署与Hexo的常用指令</h1><h2 id="环境与准备"><a href="#环境与准备" class="headerlink" title="环境与准备"></a>环境与准备</h2><ul>
+<li>Google node.js官网下载最新版node.js，测试是否安装成功：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node --version</span><br></pre></td></tr></table></figure></li>
+<li>Google Git 下载并安装，注册一个GitHub账号</li>
+<li>通过npm包管理器下载hexo：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo</span><br></pre></td></tr></table></figure>
+<h2 id="Hexo部署"><a href="#Hexo部署" class="headerlink" title="Hexo部署"></a>Hexo部署</h2></li>
+<li>新建目标文件夹并初始化：在父文件夹下执行<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &#123;&#123;folder name&#125;&#125;</span><br></pre></td></tr></table></figure></li>
+<li>在该目录下执行，更新插件，部署到GitHub还需要插件<code>hexo-deployer-git</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></li>
+<li>进入自己的github，新建一个仓库命名为<code>&#123;&#123;account name&#125;&#125;.github.io</code>，并配置ssh密钥——具体操作google it</li>
+<li>修改根目录下配置文件<code>_config.yml</code><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> &#123;&#123;<span class="string">repo</span> <span class="string">ssh</span> <span class="string">addr</span>&#125;&#125;</span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure></li>
+<li>通过hexo命令部署<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+<h3 id="Hexo的一些常用指令"><a href="#Hexo的一些常用指令" class="headerlink" title="Hexo的一些常用指令"></a>Hexo的一些常用指令</h3></li>
+</ul>
+<ol>
+<li>hexo clean：清理cache</li>
+<li>hexo g/generate：生成静态网页</li>
+<li>hexo s/server：基于node.js的本地服务</li>
+<li>hexo d/deploy：将工程部署到远端<h3 id="Hexo的美化，以及架构理解"><a href="#Hexo的美化，以及架构理解" class="headerlink" title="Hexo的美化，以及架构理解"></a>Hexo的美化，以及架构理解</h3></li>
+<li>主题/theme<ul>
+<li>在<a target="_blank" rel="noopener" href="https://hexo.io/">官方网站</a>上可以找到很多好看的主题，一般可以通过npm和git两种方式安装<ol>
+<li>在根目录<code>themes</code>文件夹下，<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> &#123;&#123;repo URL&#125;&#125;</span><br></pre></td></tr></table></figure></li>
+<li>直接<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-theme-&#123;&#123;theme name&#125;&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li>之后修改根目录下配置文件<code>_config.yml</code><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">theme:</span> &#123;&#123;<span class="string">theme</span> <span class="string">name</span>&#125;&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>live2D<ul>
+<li>低级形态：使用<code>hexo-live2d-helper</code><a target="_blank" rel="noopener" href="https://github.com/EYHN/hexo-helper-live2d">部署</a></li>
+<li>高级形态：使用<code>live2d-widget</code><a target="_blank" rel="noopener" href="https://github.com/stevenjoezhang/live2d-widget">部署</a></li>
+<li>注意前者在根目录下部署，后者在主题文件下部署</li>
+<li>一些模型库，<a target="_blank" rel="noopener" href="https://github.com/xiazeyu/live2d-widget-models">library</a>, <a target="_blank" rel="noopener" href="https://github.com/summerscar/live2dDemo">demo</a></li>
+</ul>
+</li>
+<li>Hexo渲染原理探索<ul>
+<li>在本地运行<code>hexo g</code>时，首先读取根目录下<code>_config.yml</code>设置，再利用选定的主题文件进行渲染：</li>
+<li>在<code>themes/&#123;&#123;theme name&#125;&#125;/layout</code>文件夹下可以找到进行渲染的ejs文件与<code>_partial</code>文件夹，而css和js文件可在同父目录下<code>source</code>文件夹里找到，基于此，可以进行主题的再修改(mo gai)</li>
+<li>图片等资源基本采用图床引用<h2 id="vercel部署"><a href="#vercel部署" class="headerlink" title="vercel部署"></a>vercel部署</h2></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>注册一个vercel账号，这里有一个坑就是他们把<code>@qq.com</code>ban掉了，所以qq邮箱是无法注册的，也无法通过qq邮箱注册的github或者bitbucket账号登录，虽然GitHub是qq注册的但幸好bitbucket是gmail</li>
+<li>但注册好后，就可以将账号与GitHub账号正常关联在一起，从GitHub上import项目后，再到本地进行安装，之后在根目录下运行<code>vercel</code>，跟着指引完成部署即可，相关命令如下：  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm install vercel</span><br><span class="line">$ vercel</span><br><span class="line">$ vercel --prod</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+      </section>
+
+      <section class="article-footer">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/front-end/" rel="tag">#front end</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gitpage/" rel="tag">#gitpage</a></li></ul>
+      </section>
+
+      <section class="article-navs">
+        
+      </section>
+
+      
+
+  
+  
+
+  
+  
+
+
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+     
+    <p>&copy; 2020 <a href="/" target="_blank">Ray Wong</a></p>
+
+    
+      <p id="hitokoto"></p>
+      <script src="https://v1.hitokoto.cn/?c=k&amp;encode=js&select=%23hitokoto" defer></script>
+    
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+  <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+  <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+</svg> 
+  </div>
+
+  
+  
+
+
+  <!-- aplayer 音频 start -->
+  <link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  <script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script type="text/javascript">
+    const aplayer = document.querySelectorAll(".aplayer");
+    aplayer && initaplayer(aplayer);
+    function initaplayer(els) {
+      let elsArr = Array.from(els);
+      elsArr.forEach(el => {
+        new APlayer({
+          container: el,
+          audio: { ...el.dataset },
+          theme: "#b7daff",
+          lrcType: 3,
+          autoplay: false,
+          loop: false,
+          mutex: true,
+        });
+      });
+    }
+  </script>
+  <!-- aplayer 音频 end -->
+  
+
+<!-- dplayer 视频 start -->
+<script type="text/javascript" src="https://unpkg.com/dplayer@1.25.1/dist/DPlayer.min.js"></script>
+<script type="text/javascript">
+  const dplayer = document.querySelectorAll(".dplayer");
+  dplayer && initDPlayer(dplayer);
+  function initDPlayer(els) {
+    let elsArr = Array.from(els);
+    elsArr.forEach(el => {
+      let url = el.dataset.url;
+      let cover = el.dataset.cover;
+      let subtitle = el.dataset.subtitle;
+
+      let options = {
+        container: el,
+        video: { url: url, pic: cover },
+        theme: "#b7daff",
+        autoplay: false,
+        loop: false,
+        mutex: true,
+      }
+
+      if (subtitle) {
+        options.subtitle = {
+          url: el.dataset.subtitle,
+        }
+      }
+      new DPlayer(options);
+    });
+  }
+</script>
+<!-- dplayer 视频 end -->
+
+
+<!-- waterfall 瀑布流 start -->
+
+<script src="/lib/waterfall.min.js"></script>
+
+<script type="text/javascript">
+
+const waterfalls = document.querySelectorAll(".waterfall-container");
+
+if (waterfalls && waterfalls.length > 0) {
+  waterfalls.forEach((waterfall, index) => {
+    let cls = "waterfall-container-" + index;
+    waterfall.classList.add(cls);
+    initWaterfall(cls, waterfall);
+  });
+}
+
+function initWaterfall(selector, el) {
+  const options = {};
+  if (Object.keys(el.dataset).length > 0) {
+    for (let k in el.dataset) {
+      options[k] = el.dataset[k];
+    }
+  }
+  waterfall(`.${selector}`, options);
+}
+</script>
+<!-- waterfall 瀑布流 end -->
+
+
+  <!-- zoom start -->
+  
+<script src="/lib/zoom.min.js"></script>
+
+  <script type="text/javascript">
+    document.querySelector(".article-content") && zoom(".article-content");
+  </script>
+  <!-- zoom end -->
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/poi.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
