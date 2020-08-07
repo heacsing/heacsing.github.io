@@ -140,6 +140,7 @@
 <li>新建目标文件夹并初始化：在父文件夹下执行<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &#123;&#123;folder name&#125;&#125;</span><br></pre></td></tr></table></figure></li>
 <li>在该目录下执行，更新插件，部署到GitHub还需要插件<code>hexo-deployer-git</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></li>
 <li>进入自己的github，新建一个仓库命名为<code>&#123;&#123;account name&#125;&#125;.github.io</code>，并配置ssh密钥——具体操作google it</li>
+<li>Github每个账号可以有一个<em>个人主页</em>，但每个repo都可以有一个<em>项目主页</em>，通过设置repo的git pages，即可通过URL<code>&#123;&#123;account name&#125;&#125;.github.io/&#123;&#123;repo name&#125;&#125;</code>来访问</li>
 <li>修改根目录下配置文件<code>_config.yml</code><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> &#123;&#123;<span class="string">repo</span> <span class="string">ssh</span> <span class="string">addr</span>&#125;&#125;</span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure></li>
 <li>通过hexo命令部署<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
 <h3 id="Hexo的一些常用指令"><a href="#Hexo的一些常用指令" class="headerlink" title="Hexo的一些常用指令"></a>Hexo的一些常用指令</h3></li>
@@ -174,9 +175,7 @@
 </ol>
 <ul>
 <li>注册一个vercel账号，这里有一个坑就是他们把<code>@qq.com</code>ban掉了，所以qq邮箱是无法注册的，也无法通过qq邮箱注册的github或者bitbucket账号登录，虽然GitHub是qq注册的但幸好bitbucket是gmail</li>
-<li>但注册好后，就可以将账号与GitHub账号正常关联在一起，从GitHub上import项目后，再到本地进行安装，之后在根目录下运行<code>vercel</code>，跟着指引完成部署即可，相关命令如下：  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm install vercel</span><br><span class="line">$ vercel</span><br><span class="line">$ vercel --prod</span><br></pre></td></tr></table></figure>
-
-</li>
+<li>但注册好后，就可以将账号与GitHub账号正常关联在一起，从GitHub上import项目即可，这里需要注意的一个坑就是，<strong>引入项目时会有一个<code>FRAMEWORK PRESET(框架预设值)</code>的选项，不要选择Hexo，other即可</strong>，否则会导致部署的项目404</li>
 </ul>
 
       </section>
@@ -187,6 +186,26 @@
 
       <section class="article-navs">
         
+<nav class="card-container card-article-nav">
+  <div class="card-wrap">
+    
+      <div id="article-nav-newer" class="card-item">
+        <article>
+          
+          <a class="card-link article-nav-link" href="/2020/08/07/JavaScript%EF%BC%88%E4%B8%80%EF%BC%89/"></a>
+          <strong class="article-nav-caption">Newer</strong>
+          <p class="article-nav-title">
+            
+              JavaScript（一）
+            
+          </p>
+        </article>
+      </div>
+    
+    
+  </div>
+</nav>
+
       </section>
 
       
@@ -208,9 +227,6 @@
      
     <p>&copy; 2020 <a href="/" target="_blank">heacsing</a></p>
 
-    
-      <p id="hitokoto"></p>
-      <script src="https://v1.hitokoto.cn/?c=k&amp;encode=js&select=%23hitokoto" defer></script>
     
 
     

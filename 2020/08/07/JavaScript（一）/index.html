@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  
+    <meta name="description" content="personnal blog">
+  
+
+  
+    <meta name="keywords" content="blog；computer science；CTF；">
+  
+
+  
+    <meta name="author" content="heacsing">
+  
+
+  
+
+  
+
+  <title>JavaScript（一） | heacsing&#39;s Lounge</title>
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.6/styles/default.min.css" rel="stylesheet">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <div class="root-container">
+    <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          heacsing&#39;s Lounge
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">HOME</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">ABOUT</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">LINK</a></li>
+        
+          <li class="navbar-list-item"><a href="/tags">TAGS</a></li>
+        
+          <li class="navbar-list-item"><a href="/categories">CATEGORIES</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    
+<!-- header container -->
+<header class="header-container post">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-image" style="background-image: url(https://qiniu.miiiku.xyz/src/images/banner.jpg)"></div>
+      <div class="post-text">
+        <div class="type-wrap">
+          <a class="article-category-link" href="/categories/notes/">notes</a>
+        </div>
+        <h1 class="title-wrap">JavaScript（一）</h1>
+        <h2 class="title-sub-wrap">
+          <strong>heacsing</strong>
+          <span>发布于</span>
+          
+  <a href="javascript:;" class="article-date">
+    <time datetime="2020-08-07T04:21:02.000Z" itemprop="datePublished">2020-08-07</time>
+  </a>
+
+        </h2>
+      </div>
+    </div>
+  
+
+  
+  
+
+  </header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+
+<div class="body-container">
+  <article class="content-container article-container">
+    <div class="article-content">
+      
+      
+
+      <section class="article-entry">
+        <h1 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h1><h2 id="加油"><a href="#加油" class="headerlink" title="加油"></a>加油</h2><h3 id="20200604"><a href="#20200604" class="headerlink" title="20200604"></a>20200604</h3><h4 id="function-name-argument-code-return-retval"><a href="#function-name-argument-code-return-retval" class="headerlink" title="function name(argument){code;return retval};"></a>function name(argument){code;return retval};</h4><ol>
+<li>函数是全局的，在定义前即可调用；</li>
+<li>没有return，默认返回undefined；</li>
+<li>函数名重复会产生覆盖；</li>
+<li>函数读到第一个return后即返回，之后的语句会被完全无视； <h4 id="调用函数："><a href="#调用函数：" class="headerlink" title="调用函数："></a>调用函数：</h4></li>
+<li>通过名称调用；</li>
+<li>通过全局对象window调用；<h4 id="参数："><a href="#参数：" class="headerlink" title="参数："></a>参数：</h4></li>
+<li>多余参数会被无视</li>
+<li>实现默认参数的方式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arg&#x3D;arg||default val;</span><br><span class="line">if(arg&#x3D;&#x3D;&#x3D;undefined)arg&#x3D;default val;</span><br><span class="line">arg&#x3D;arg&#x3D;&#x3D;&#x3D;undefined?0:y;</span><br></pre></td></tr></table></figure></li>
+<li>函数的所有参数构成arguments[]对象<ul>
+<li>使用arguments实现可变参数<h4 id="用var关键字重载局部变量；直接使用会声明为全局变量。在工程中全部使用var来声明变量"><a href="#用var关键字重载局部变量；直接使用会声明为全局变量。在工程中全部使用var来声明变量" class="headerlink" title="用var关键字重载局部变量；直接使用会声明为全局变量。在工程中全部使用var来声明变量"></a>用var关键字重载局部变量；直接使用会声明为全局变量。在工程中全部使用var来声明变量</h4></li>
+</ul>
+</li>
+</ol>
+<h4 id="一些全局函数："><a href="#一些全局函数：" class="headerlink" title="一些全局函数："></a>一些全局函数：</h4><ol>
+<li><p>parseInt(string,radix)：返回字符串转换成radix进制的整数</p>
+</li>
+<li><p>parseFloat(string,)：返回字符串转换成的浮点数</p>
+</li>
+<li><p>isFinite(var)：若是无限大或NaN则返回False</p>
+</li>
+<li><p>isNaN(var)：若是NaN则返回真</p>
+</li>
+<li><p>encodeURI(string)：返回URI编码后的地址</p>
+<ul>
+<li>若要对所有ASCII码标点符号都进行编码，适宜使用encodeURIComponent()</li>
+</ul>
+</li>
+<li><p>decodeURI(string)：返回URI解码后的地址</p>
+<ul>
+<li>同上；</li>
+</ul>
+</li>
+<li><p>escape(string)：返回全平台适用的URI编码一般适用的字符串</p>
+</li>
+<li><p>unescape(string)：返回解码的字符串</p>
+</li>
+<li><p>Number(object)：将对象转换为数值？</p>
+<ul>
+<li>如果是Date对象，会返回1970年1月1日到当前时间的毫秒数</li>
+</ul>
+</li>
+</ol>
+<h4 id="特殊形式的函数"><a href="#特殊形式的函数" class="headerlink" title="特殊形式的函数"></a>特殊形式的函数</h4><ul>
+<li>JavaScript中函数也是一种数据类型，它有两个特性</li>
+</ul>
+<ol>
+<li>匿名函数，不命名的函数：<ol>
+<li>将函数表达式存储在变量中，变量也可以作为一个函数使用</li>
+<li>可以将匿名函数作为参数传递给其他函数（像函数指针一样</li>
+<li>通过匿名函数完成一些一次性任务</li>
+</ol>
+</li>
+</ol>
+<h3 id="20200605"><a href="#20200605" class="headerlink" title="20200605"></a>20200605</h3><h4 id="自定义对象"><a href="#自定义对象" class="headerlink" title="自定义对象"></a>自定义对象</h4><ol>
+<li><p>对象字面量法</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var obj&#x3D;&#123;</span><br><span class="line">    key:value(string),</span><br><span class="line">    key1:value1</span><br><span class="line">    &#x2F;&#x2F;建议将key都用&quot; &quot;括起来</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>通过new Object()创建对象</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    var obj&#x3D; new Object();&#x2F;&#x2F;创建空对象</span><br><span class="line">    var arr&#x3D;new Array();&#x2F;&#x2F;创建新数组对象</span><br><span class="line">    var date&#x3D;new Date();&#x2F;&#x2F;创建Date对象</span><br><span class="line">    var reg&#x3D;new RegExp();&#x2F;&#x2F;创建正则表达式</span><br><span class="line">    var obj&#x3D;new Create(arguments);&#x2F;&#x2F;通过自定义构造函数创建对象</span><br><span class="line">    &#96;&#96;&#96; </span><br><span class="line">3. 通过Object.create(key:value)创建对象</span><br><span class="line"></span><br><span class="line">#### 对象的属性与方法</span><br><span class="line">1. 通过小数点或者方括号调用对象属性值</span><br><span class="line">2. 动态读取</span><br></pre></td></tr></table></figure>
+<p> var x=key<br> console.log(obj.x);//undefined<br> console.log(obj[x]);//success<br> console.log(obj[‘x’]);//undefined</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">3. 添加&#x2F;修改属性：作为等式左值进行赋值即可实现</span><br><span class="line">4. delete实现删除属性</span><br><span class="line">    + 只会断开连接，若属性是对象，delete后仍可直接访问</span><br><span class="line">5. for&#x2F;in遍历</span><br></pre></td></tr></table></figure>
+<p> for(var p in obj){</p>
+<pre><code> console.log(p);//取出的是值</code></pre>
+<p> }</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">6.对象中的方法</span><br></pre></td></tr></table></figure>
+<p> var obj={</p>
+<pre><code> name:function()&#123;&#125;</code></pre>
+<p> }</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">### 20200607</span><br><span class="line">#### 对象的结构</span><br><span class="line">+ 属性特性</span><br><span class="line">    1. writable</span><br><span class="line">    2. enumerable</span><br><span class="line">    3. configurabel</span><br><span class="line">    4. getter</span><br><span class="line">    5. setter</span><br><span class="line">+ 对象特性</span><br><span class="line">    1. prototype</span><br><span class="line">    2. class</span><br><span class="line">    3. extensiblity</span><br><span class="line">+ 原型链：obj-&gt;obj.prototype-&gt;object.prototype-&gt;null。所有对象都继承于Object父对象</span><br><span class="line">    1. 通过(bool)&#39;key&#39; in obj 检测是否有某个属性或方法，会向上到原型中去查找；</span><br><span class="line">    2. 通过obj.hasOwnProperty(&#39;key&#39;) 方法查找对象本身是否拥有该属性</span><br><span class="line">    3. 通过Object.create(&#123;key:value&#125;)创建的对象，实质是创建了一个对象的原型，即对上述对象 obj.hasOwnProperty(&#39;key&#39;)&#x3D;&#x3D;false</span><br><span class="line">#### 属性的特性</span><br><span class="line">+ 简介</span><br><span class="line">    1. writable：属性的值能否再修改，默认为true</span><br><span class="line">    2. enumerable：能否通过for&#x2F;in访问到该属性，直接在对象上定义的属性默认为true</span><br><span class="line">    3. configurable：能否通过delete删除并重新定义属性，能否修改这些特性</span><br><span class="line">+ 可枚举的：</span><br><span class="line">    1. 通过obj.propertyIsEnumerable(&#39;key&#39;)来判断是否为可枚举的自有属性</span><br><span class="line">    2. 通过Object.getOwnPropertyNames(obj)获取所有**自有**属性的名称</span><br><span class="line">    </span><br><span class="line">### 20200609</span><br><span class="line">#### 属性特性描述</span><br><span class="line">+ 通过Object.defineProperty(obj,prop,descriptor)来精确添加或修改对象的属性，通过该方法创建属性的默认配置均为false</span><br><span class="line">+ 通过Object.defineProperties(obj,&#123;</span><br><span class="line">    &#39;key&#39;:&#123;</span><br><span class="line">        value:&#39;&#39;</span><br><span class="line">        writable:</span><br><span class="line">        emnumerable:</span><br><span class="line">        configurable:</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">#### 属性的特性</span><br><span class="line">+ &quot;__proto__&quot;属性指向了对象的父对象，将之赋值为null来使对象没有继承的属性</span><br><span class="line">+ configurable主要限定的是Object.defineProperty()函数能否再修改属性的特性，其中也包括value，即属性的值；特别的，configurable:false的属性的writable特性可以从true被修改为false</span><br><span class="line">+ 通过Object.getOwnPropertyDescriptor(obj,&#39;key&#39;)来得到属性的特性状态</span><br><span class="line"></span><br><span class="line">### 20200613</span><br><span class="line">#### 对象的特性</span><br><span class="line">+ 三个对象的特性：</span><br><span class="line">    1. prototype：指向一个**对象**</span><br><span class="line">    2. class：一个标示对象**类**的字符串</span><br><span class="line">    3. extensible flag：标明是否为可扩展</span><br><span class="line">+ 通过obj.isPrototypeOf(obj)来检测对象是否是参数对象的原型（或处于参数对象的原型链中）</span><br><span class="line"></span><br><span class="line">### 20200626</span><br><span class="line">#### 事件！！</span><br><span class="line">+ 定义：发生在文档或浏览器窗口内的交互</span><br><span class="line">+ 事件的属性：</span><br><span class="line">    1. 事件类型</span><br><span class="line">    2. 事件目标</span><br><span class="line">    3. 事件处理&#x2F;监听程序</span><br><span class="line">    4. 事件对象</span><br><span class="line">    5. 事件传播</span><br><span class="line">+ 脚本模型</span><br></pre></td></tr></table></figure>
+<p>&lt;input …… id=’btn’/&gt;</p>
+<script>
+ var btn=document.getElementById('btn');
+ btn.onclick=function(){
+     alert('test');
+ }
+</script>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ DOM2模型：实时添加事件和删除事件</span><br></pre></td></tr></table></figure>
+<div id='box'>
+<input ...... id='btn'>
+</div>
+<script>
+ var btn=document.getElementById("btn");
+ btn.onclick=function(e){
+     var e=e||window.event;//兼容IE？
+     alert(e);
+ }
+ var box=document.getElementById("box");
+ btn.onclick=function(e){
+     alert('button clicked');
+
+<pre><code> //取消冒泡
+ var e=e||window.event;
+ e.stopPropagation();</code></pre>
+<p> }<br> box.onclick=function(){</p>
+<pre><code> alert(&quot;div clicked&quot;);</code></pre>
+<p> }<br> document.body.onclick=function(){</p>
+<pre><code> alert(&quot;body clicked&quot;);</code></pre>
+<p> }<br> document.documentElement.onclick=function(){</p>
+<pre><code> alert(&quot;html clicked&quot;);</code></pre>
+<p> }<br> document.onclick=function(){</p>
+<pre><code> alert(&#39;document clicked&#39;);</code></pre>
+<p> }<br> //上述事件逐一冒泡触发</p>
+</li>
+</ol>
+<p></script><br>```</p>
+
+      </section>
+
+      <section class="article-footer">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/front-end/" rel="tag">#front end</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/language/" rel="tag">#language</a></li></ul>
+      </section>
+
+      <section class="article-navs">
+        
+<nav class="card-container card-article-nav">
+  <div class="card-wrap">
+    
+      <div id="article-nav-newer" class="card-item">
+        <article>
+          
+          <a class="card-link article-nav-link" href="/2020/08/07/CTF-re-80720/"></a>
+          <strong class="article-nav-caption">Newer</strong>
+          <p class="article-nav-title">
+            
+              CTF_re_80720
+            
+          </p>
+        </article>
+      </div>
+    
+    
+      <div id="article-nav-older" class="card-item">
+        <article>
+          
+          <a class="card-link article-nav-link" href="/2020/08/06/Hexo+Github+Vervel%E7%9A%84%E9%83%A8%E7%BD%B2%E4%B8%8EHexo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/"></a>
+          <strong class="article-nav-caption">Older</strong>
+          <p class="article-nav-title">
+            
+              Hexo+Github+Vervel的部署与Hexo的常用指令
+            
+          </p>
+        </article>
+      </div>
+    
+  </div>
+</nav>
+
+      </section>
+
+      
+
+  
+  
+
+  
+  
+
+
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+     
+    <p>&copy; 2020 <a href="/" target="_blank">heacsing</a></p>
+
+    
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+  <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+  <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+</svg> 
+  </div>
+
+  
+  
+
+
+  <!-- aplayer 音频 start -->
+  <link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  <script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script type="text/javascript">
+    const aplayer = document.querySelectorAll(".aplayer");
+    aplayer && initaplayer(aplayer);
+    function initaplayer(els) {
+      let elsArr = Array.from(els);
+      elsArr.forEach(el => {
+        new APlayer({
+          container: el,
+          audio: { ...el.dataset },
+          theme: "#b7daff",
+          lrcType: 3,
+          autoplay: false,
+          loop: false,
+          mutex: true,
+        });
+      });
+    }
+  </script>
+  <!-- aplayer 音频 end -->
+  
+
+<!-- dplayer 视频 start -->
+<script type="text/javascript" src="https://unpkg.com/dplayer@1.25.1/dist/DPlayer.min.js"></script>
+<script type="text/javascript">
+  const dplayer = document.querySelectorAll(".dplayer");
+  dplayer && initDPlayer(dplayer);
+  function initDPlayer(els) {
+    let elsArr = Array.from(els);
+    elsArr.forEach(el => {
+      let url = el.dataset.url;
+      let cover = el.dataset.cover;
+      let subtitle = el.dataset.subtitle;
+
+      let options = {
+        container: el,
+        video: { url: url, pic: cover },
+        theme: "#b7daff",
+        autoplay: false,
+        loop: false,
+        mutex: true,
+      }
+
+      if (subtitle) {
+        options.subtitle = {
+          url: el.dataset.subtitle,
+        }
+      }
+      new DPlayer(options);
+    });
+  }
+</script>
+<!-- dplayer 视频 end -->
+
+
+<!-- waterfall 瀑布流 start -->
+
+<script src="/lib/waterfall.min.js"></script>
+
+<script type="text/javascript">
+
+const waterfalls = document.querySelectorAll(".waterfall-container");
+
+if (waterfalls && waterfalls.length > 0) {
+  waterfalls.forEach((waterfall, index) => {
+    let cls = "waterfall-container-" + index;
+    waterfall.classList.add(cls);
+    initWaterfall(cls, waterfall);
+  });
+}
+
+function initWaterfall(selector, el) {
+  const options = {};
+  if (Object.keys(el.dataset).length > 0) {
+    for (let k in el.dataset) {
+      options[k] = el.dataset[k];
+    }
+  }
+  waterfall(`.${selector}`, options);
+}
+</script>
+<!-- waterfall 瀑布流 end -->
+
+
+  <!-- zoom start -->
+  
+<script src="/lib/zoom.min.js"></script>
+
+  <script type="text/javascript">
+    document.querySelector(".article-content") && zoom(".article-content");
+  </script>
+  <!-- zoom end -->
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/poi.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
