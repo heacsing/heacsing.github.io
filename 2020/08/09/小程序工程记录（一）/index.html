@@ -24,7 +24,7 @@
 
   
 
-  <title>categories | heacsing&#39;s Lounge</title>
+  <title>小程序工程记录（一） | heacsing&#39;s Lounge</title>
 
   
 
@@ -80,10 +80,7 @@
 
     
 <!-- header container -->
-<header class="header-container">
-
-  
-  
+<header class="header-container post">
 
   
   
@@ -100,62 +97,92 @@
   
   
     <div class="header-content">
-      <div class="post-image" style="background-image: url(https://qiniu.miiiku.xyz/src/images/banner.jpg)"></div>
+      <div class="post-image" style="background-image: url(https://files.yande.re/sample/b64dad85396cbcc8e3d7e608ffdb17b5/yande.re%20669524%20sample%20admiral_graf_spee_%28azur_lane%29%20azur_lane%20bikini%20cleavage%20g_uhrabbit%20garter%20swimsuits.jpg)"></div>
       <div class="post-text">
-        <h1 class="title-wrap">categories</h1>
-        
-        <h2 class="title-sub-wrap">共有3个分类</h2>
-        
+        <div class="type-wrap">
+          <a class="article-category-link" href="/categories/notes/">notes</a>
+        </div>
+        <h1 class="title-wrap">小程序工程记录（一）</h1>
+        <h2 class="title-sub-wrap">
+          <strong>heacsing</strong>
+          <span>发布于</span>
+          
+  <a href="javascript:;" class="article-date">
+    <time datetime="2020-08-09T07:17:58.000Z" itemprop="datePublished">2020-08-09</time>
+  </a>
+
+        </h2>
       </div>
     </div>
   
 
+  
+  
+
   </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
+<!-- 文章内容 -->
 
 <div class="body-container">
-  
-  
+  <article class="content-container article-container">
+    <div class="article-content">
+      
+      
 
-  
-  
-    <article class="content-container next">
-      <div class="article-content">
-        <div class="card-container card-categories">
-          <div class="card-wrap">
+      <section class="article-entry">
+        <h1 id="小程序工程记录（一）"><a href="#小程序工程记录（一）" class="headerlink" title="小程序工程记录（一）"></a>小程序工程记录（一）</h1><ul>
+<li>完成任务：<ol>
+<li>debug GPACalculator<h2 id="debug-GPACalulator"><a href="#debug-GPACalulator" class="headerlink" title="debug GPACalulator"></a>debug GPACalulator</h2><h3 id="flex布局理解"><a href="#flex布局理解" class="headerlink" title="flex布局理解"></a>flex布局理解</h3></li>
+</ol>
+</li>
+<li>flex布局<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">完整教程</a>参见，<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/07/flex-examples.html">实例</a>参见，需要注意的点有：</li>
+</ul>
+<ol>
+<li>设为flex布局后，子元素的<code>float</code>, <code>clear</code>和<code>vertical-align</code>都将失效；</li>
+<li><code>justify-content</code>为<code>flex-direction</code>方向上的布局；<h3 id="右下侧白边"><a href="#右下侧白边" class="headerlink" title="右下侧白边"></a>右下侧白边</h3></li>
+</ol>
+<ul>
+<li>微信小程序宽度超过750rpx即会出现右侧白边，最通用解决办法是最大盒子上<code>overflow-x:hidden</code><blockquote>
+<p>下次边debug边记录</p>
+</blockquote>
+</li>
+</ul>
+
+      </section>
+
+      <section class="article-footer">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/front-end/" rel="tag">#front end</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wx-miniprogramme/" rel="tag">#wx miniprogramme</a></li></ul>
+      </section>
+
+      <section class="article-navs">
+        
+<nav class="card-container card-article-nav">
+  <div class="card-wrap">
+    
+    
+      <div id="article-nav-older" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(https://files.yande.re/sample/c8d44a34a30453a5290c7a13378df3f8/yande.re%20669529%20sample%20bodysuit%20crossover%20gantz%20heels%20liang_xing%20mecha_musume%20nier_automata%20see_through%20sword%20thighhighs%20yorha_no.2_type_b%20yorha_type_a_no._2.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/2020/08/08/%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%BC%E5%85%A5%E5%9C%B0%E5%9D%80%E8%A1%A8/"></a>
+          <strong class="article-nav-caption">Older</strong>
+          <p class="article-nav-title">
             
-              
-              <div class="card-item large">
-                <article>
-                  <a class="card-link" href="/categories/writeup"></a>
-                  <p>writeup (1)</p>
-                </article>
-              </div>
+              可执行文件结构与导入地址表
             
-              
-              <div class="card-item">
-                <article>
-                  <a class="card-link" href="/categories/notes"></a>
-                  <p>notes (3)</p>
-                </article>
-              </div>
-            
-              
-              <div class="card-item large">
-                <article>
-                  <a class="card-link" href="/categories/application"></a>
-                  <p>application (1)</p>
-                </article>
-              </div>
-            
-          </div>
-        </div>
+          </p>
+        </article>
       </div>
-    </article>
-  
+    
+  </div>
+</nav>
+
+      </section>
+
+      
 
   
   
@@ -163,10 +190,10 @@
   
   
 
-  
-  
+
+    </div>
+  </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">

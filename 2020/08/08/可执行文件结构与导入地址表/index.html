@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  
+    <meta name="description" content="personnal blog">
+  
+
+  
+    <meta name="keywords" content="blog；computer science；CTF；">
+  
+
+  
+    <meta name="author" content="heacsing">
+  
+
+  
+
+  
+
+  <title>可执行文件结构与导入地址表 | heacsing&#39;s Lounge</title>
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.6/styles/default.min.css" rel="stylesheet">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <div class="root-container">
+    <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          heacsing&#39;s Lounge
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">HOME</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">ABOUT</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">LINK</a></li>
+        
+          <li class="navbar-list-item"><a href="/tags">TAGS</a></li>
+        
+          <li class="navbar-list-item"><a href="/categories">CATEGORIES</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    
+<!-- header container -->
+<header class="header-container post">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-image" style="background-image: url(https://files.yande.re/sample/c8d44a34a30453a5290c7a13378df3f8/yande.re%20669529%20sample%20bodysuit%20crossover%20gantz%20heels%20liang_xing%20mecha_musume%20nier_automata%20see_through%20sword%20thighhighs%20yorha_no.2_type_b%20yorha_type_a_no._2.jpg)"></div>
+      <div class="post-text">
+        <div class="type-wrap">
+          <a class="article-category-link" href="/categories/notes/">notes</a>
+        </div>
+        <h1 class="title-wrap">可执行文件结构与导入地址表</h1>
+        <h2 class="title-sub-wrap">
+          <strong>heacsing</strong>
+          <span>发布于</span>
+          
+  <a href="javascript:;" class="article-date">
+    <time datetime="2020-08-07T16:05:49.000Z" itemprop="datePublished">2020-08-08</time>
+  </a>
+
+        </h2>
+      </div>
+    </div>
+  
+
+  
+  
+
+  </header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+
+<div class="body-container">
+  <article class="content-container article-container">
+    <div class="article-content">
+      
+      
+
+      <section class="article-entry">
+        <p>参考：《逆向工程核心原理》，<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format">Microsoft_ImageHlp</a></p>
+<h1 id="可执行文件结构与导入地址表"><a href="#可执行文件结构与导入地址表" class="headerlink" title="可执行文件结构与导入地址表"></a>可执行文件结构与导入地址表</h1><h2 id="可执行文件结构"><a href="#可执行文件结构" class="headerlink" title="可执行文件结构"></a>可执行文件结构</h2><h3 id="PE-COFF与ELF"><a href="#PE-COFF与ELF" class="headerlink" title="PE/COFF与ELF"></a>PE/COFF与ELF</h3><ul>
+<li>Portable Executable 是Windows系统使用的可执行文件格式，其前身是UNIX平台的COFF(Common Object File Format),一般有PE32和PE32+(64位)两种格式。Windows下.exe, .scr, .sys, .vxd, .dll, .ocx, .cpl, .drv, .obj扩展名均为PE文件</li>
+<li>Executable and Links Format 是linux系统下的可执行文件格式</li>
+</ul>
+<h3 id="PE基本结构"><a href="#PE基本结构" class="headerlink" title="PE基本结构"></a>PE基本结构</h3><p><img src="https://www.researchgate.net/profile/Nezer_Zaidenberg/publication/336723006/figure/fig1/AS:816894667919360@1571774274381/Structure-of-a-Windows-PE-file-The-structure-contains-a-variable-number-of-sections-Two.png" alt="PEstructure"></p>
+<ul>
+<li>从DOS Header到Section Table称为PE头部分，余下节区合称PE体。<em>文件</em>中使用偏移(offset)，<em>内存</em>中使用虚拟地址(VA, Virtual Address)来表示位置。PE头尾部与各节区之间有NULL填充(NULL padding)</li>
+<li>以Win32为例，每个程序都被分配了4GB的虚拟内存(0x00000000~0xFFFFFFFF)，VA指的是在此内存上的绝对地址，而为了实现重定位，PE头内广泛使用相对地址(RVA)，其基准称为ImageBase<h2 id="PE-file-header"><a href="#PE-file-header" class="headerlink" title="PE file header"></a>PE file header</h2></li>
+</ul>
+<hr>
+<h3 id="DOS-header"><a href="#DOS-header" class="headerlink" title="DOS header"></a>DOS header</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//未注释掉的为重要成员</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">IMAGE_DOS_HEADER</span>&#123;</span></span><br><span class="line">    <span class="number">0x00</span> WORD e_magic;      <span class="comment">//※Magic DOS signature MZ(4Dh 5Ah):MZ标记:用于标记是否是可执行文件</span></span><br><span class="line">    <span class="comment">//0x02 WORD e_cblp;     //Bytes on last page of file</span></span><br><span class="line">    <span class="comment">//0x04 WORD e_cp;       //Pages in file</span></span><br><span class="line">    <span class="comment">//0x06 WORD e_crlc;     //Relocations</span></span><br><span class="line">    <span class="comment">//0x08 WORD e_cparhdr;  //Size of header in paragraphs</span></span><br><span class="line">    <span class="comment">//0x0A WORD e_minalloc; //Minimun extra paragraphs needs</span></span><br><span class="line">    <span class="comment">//0x0C WORD e_maxalloc; //Maximun extra paragraphs needs</span></span><br><span class="line">    <span class="comment">//0x0E WORD e_ss;       //intial(relative)SS value</span></span><br><span class="line">    <span class="comment">//0x10 WORD e_sp;       //intial SP value</span></span><br><span class="line">    <span class="comment">//0x12 WORD e_csum;     //Checksum</span></span><br><span class="line">    <span class="comment">//0x14 WORD e_ip;       //intial IP value</span></span><br><span class="line">    <span class="comment">//0x16 WORD e_cs;       //intial(relative)CS value</span></span><br><span class="line">    <span class="comment">//0x18 WORD e_lfarlc;   //File Address of relocation table</span></span><br><span class="line">    <span class="comment">//0x1A WORD e_ovno;     //Overlay number</span></span><br><span class="line">    <span class="comment">//0x1C WORD e_res[4];   //Reserved words</span></span><br><span class="line">    <span class="comment">//0x24 WORD e_oemid;    //OEM identifier(for e_oeminfo)</span></span><br><span class="line">    <span class="comment">//0x26 WORD e_oeminfo;  //OEM information;e_oemid specific</span></span><br><span class="line">    <span class="comment">//0x28 WORD e_res2[10]; //Reserved words</span></span><br><span class="line">    <span class="number">0x3C</span> DWORD e_lfanew;    <span class="comment">//※Offset to start of PE header:定位PE文件，PE头相对于文件的偏移量</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>e_magic</code>：DOS签名（魔数），PE文件为<code>0x4D5A</code>(ASCII:<code>MZ</code>)<br><code>e_lfanew</code>：指示NT头的offset，根据PE规范应为0x000000E0</p>
+<h3 id="DOS-stub"><a href="#DOS-stub" class="headerlink" title="DOS stub"></a>DOS stub</h3><ul>
+<li>DOS存根(stub)在DOS Header之后，是个可选项且大小不固定：<blockquote>
+<p>The MS-DOS stub is a valid application that runs under MS-DOS. It is placed at the front of the EXE image. The linker places a default stub here, which prints out the message “This program cannot be run in DOS mode” when the image is run in MS-DOS. The user can specify a different stub by using the /STUB linker option. </p>
+</blockquote>
+<h3 id="NT-Header"><a href="#NT-Header" class="headerlink" title="NT Header"></a>NT Header</h3></li>
+<li>NT头包含一个4字节的签名，一个文件头结构头和一个可选头结构体<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IMAGE_NT_HEADER</span> &#123;</span></span><br><span class="line">    DWORD Signature;<span class="comment">//PE</span></span><br><span class="line">    IMAGE_FILE_HEADER FileHeader;</span><br><span class="line">    IMAGE_OPTIONAL_HEADER32 OptionalHeader;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>其中Signature处于最前部，其文件偏移正是<code>_IMAGE_DOS_HEADER.e_lfanew</code>所指示的offset</li>
+</ul>
+<hr>
+<h3 id="PE-Header-COFF-File-Header"><a href="#PE-Header-COFF-File-Header" class="headerlink" title="PE Header(COFF File Header)"></a>PE Header(COFF File Header)</h3><ul>
+<li>标准COFF文件头，即_IMAGE_FILE_HEADER，其结构为：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//未注释掉的为重要成员</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IMAGE_FILE_HEADER</span> &#123;</span></span><br><span class="line">    WORD Machine;</span><br><span class="line">    WORD NumberOfSections;</span><br><span class="line">    <span class="comment">//DWORD TimeDateStamp;</span></span><br><span class="line">    <span class="comment">//DWORD PointerToSymbolTable;</span></span><br><span class="line">    <span class="comment">//DWORD NumberOfSymbols;</span></span><br><span class="line">    WORD SizeOfOptionalHeader;</span><br><span class="line">    WORD Characteristics;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Machine"><a href="#Machine" class="headerlink" title="Machine"></a>Machine</h4>每个CPU都有唯一的Machine码，兼容32位Intel x86芯片的Machine码为0x014C。具体定义可见<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#machine-types">Microsoft debug help library</a><h4 id="NumberOfSections"><a href="#NumberOfSections" class="headerlink" title="NumberOfSections"></a>NumberOfSections</h4>PE文件把代码、数据、资源等依据属性分类到各节区(Sections)中存储。该值指出文件中存在节区的数量。一定要大于0，且当与实际数量不符时，文件会运行错误。<h4 id="SizeOfOptionalHeader"><a href="#SizeOfOptionalHeader" class="headerlink" title="SizeOfOptionalHeader"></a>SizeOfOptionalHeader</h4>指出_IMAGE_OPTIONAL_HEADER结构体的长度，optional的意识是对于obj文件来说，这个结构体不是必须的，此时该长度值可为0<h4 id="Characteristics"><a href="#Characteristics" class="headerlink" title="Characteristics"></a>Characteristics</h4>该字段用于标示文件属性，文件是否是可运行的状态，是否为DLL文件等信息，以bit_OR形式组合起来，即同EFLAGS相同以某一位的0/1指示属性，具体定义可见<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#characteristics">Microsoft debug help library</a></li>
+</ul>
+<hr>
+<h3 id="Optional-Header"><a href="#Optional-Header" class="headerlink" title="Optional Header"></a>Optional Header</h3><p>可选头是PE头结构体中最大的。完整定义参考<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#optional-header-image-only">Microsoft debug help library</a>，其中的重要成员有：</p>
+<h4 id="Magic"><a href="#Magic" class="headerlink" title="Magic"></a>Magic</h4><p>为<code>0x010B</code>表示这是32位可选头结构体；为<code>0x020B</code>表示这是64位可选头结构体</p>
+<h4 id="AddressOfEntryPoint"><a href="#AddressOfEntryPoint" class="headerlink" title="AddressOfEntryPoint"></a>AddressOfEntryPoint</h4><p>持有EP的RVA值，指出最先执行的代码起始地址</p>
+<h4 id="ImageBase"><a href="#ImageBase" class="headerlink" title="ImageBase"></a>ImageBase</h4><p>加载到虚拟内存时的基准；一般来说，.exe, .dll文件将被优先装载到0x00000000<del>0x7FFFFFFF，.sys文件将被装载到0x80000000</del>0xFFFFFFFF；执行PE文件时即先创建进程，再将文件载入内存，然后把EIP寄存器值设为<code>ImageBase+AddressOfEntryPoint</code></p>
+<h4 id="SectionAlignment-FileAlignment"><a href="#SectionAlignment-FileAlignment" class="headerlink" title="SectionAlignment FileAlignment"></a>SectionAlignment FileAlignment</h4><p>分别指定了在内存中节区的最小单位和在磁盘文件中的最小单位。磁盘文件和内存的节区大小必定为改值的整数倍</p>
+<h4 id="SizeOfImage"><a href="#SizeOfImage" class="headerlink" title="SizeOfImage"></a>SizeOfImage</h4><p>加载PE文件到内存时，指定了镜像在虚拟内存中所占空间的大小，一般而言，文件的大小与加载到内存的大小是不同的</p>
+<h4 id="SizeOfHeader"><a href="#SizeOfHeader" class="headerlink" title="SizeOfHeader"></a>SizeOfHeader</h4><p>指出整个PE FileHeader的大小，也必须是FileAlignment的整数倍。第一节区所在位置，与SizeOfHeader距文件开始偏移的量相同</p>
+<h4 id="Subsystem"><a href="#Subsystem" class="headerlink" title="Subsystem"></a>Subsystem</h4><p>用来区分系统驱动文件与一般可执行文件，值为1时表示系统驱动文件，2表示GUI文件，3表示CUI文件</p>
+<h4 id="NumberOfRvaAndSizes"><a href="#NumberOfRvaAndSizes" class="headerlink" title="NumberOfRvaAndSizes"></a>NumberOfRvaAndSizes</h4><p>指定DataDirectory数组中的成员个数</p>
+<h4 id="DataDirectory"><a href="#DataDirectory" class="headerlink" title="DataDirectory"></a>DataDirectory</h4><p>理解成一个结构体数组即可，结构体内只有两个值分别是一个RVA和一个Size；数组内的关键成员有：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DataDirectory[<span class="number">0</span>] = EXPORT Directory</span><br><span class="line">DataDirectory[<span class="number">1</span>] = IMPORT Directory</span><br><span class="line">DataDirectory[<span class="number">2</span>] = RESOURCE Directory</span><br><span class="line">DataDirectory[<span class="number">9</span>] = TLS Directory</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Section-Table-SectionHeaders"><a href="#Section-Table-SectionHeaders" class="headerlink" title="Section Table(SectionHeaders)"></a>Section Table(SectionHeaders)</h3><ul>
+<li>将代码、数据、资源分区存储的结构，可以保证程序的安全性。</li>
+<li>一个_IMAGE_SECTION_HEADER结构体构成的数组，其中每个结构体对应一个节区  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IMAGE_SECTION_HEADER</span> &#123;</span></span><br><span class="line">    BYTE Name[<span class="number">8</span>];<span class="comment">//该名称仅供参考用，无意义</span></span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        DWORD PhysicalAddress;</span><br><span class="line">        DWORD VirtualSize;<span class="comment">//内存中节区所占大小</span></span><br><span class="line">    &#125; Misc;</span><br><span class="line">    DWORD SizeOfRawData;<span class="comment">//磁盘文件中节区所占大小</span></span><br><span class="line">    DWORD VirtualAddress;<span class="comment">//不带任何值，内存中节区起始地址        </span></span><br><span class="line">    DWORD PointerToRawData;<span class="comment">//不带任何值，磁盘文件中节区起始位置</span></span><br><span class="line">    <span class="comment">//分别由SectionAlignment和FileAlignment确定</span></span><br><span class="line">    DWORD PointerToRelocations;</span><br><span class="line">    DWORD PointerToLinenumbers;</span><br><span class="line">    WORD NumberOfRelocations;</span><br><span class="line">    WORD NumberOfLinenumbers;</span><br><span class="line">    DWORD Characteristics;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<h2 id="内存映射"><a href="#内存映射" class="headerlink" title="内存映射"></a>内存映射</h2><blockquote>
+<p>文件偏移 RawDataOffset 等于 虚拟地址RVA 减去 节区起始地址 _IMAGE_SECTION_HEADER.VirtualAddress 加上 磁盘起始位置 _IMAGE_SECTION_HEADER.PointerToRawData</p>
+</blockquote>
+<hr>
+<h2 id="导入地址表"><a href="#导入地址表" class="headerlink" title="导入地址表"></a>导入地址表</h2><h3 id="动态链接库"><a href="#动态链接库" class="headerlink" title="动态链接库"></a>动态链接库</h3><ul>
+<li>Dynamic Linked Library是支撑整个Windows OS的基石</li>
+<li>在16位DOS时代并不存在DLL这一概念，代码连接将所需要的“库函数”直接插入到程序中，这在32位Windows下会极高浪费内存与磁盘空间，于是便有了DLL<ol>
+<li>将“库”单独组成DLL文件，程序需要时即可调用</li>
+<li>内存映射技术使加载后的DLL代码、资源在多个进程中共享</li>
+<li>更新库时也只需更新DLL文件即可</li>
+</ol>
+</li>
+<li>DLL可以显式加载——调用时再加载，和隐式加载——加载程序时即加载；函数调用时先获取IAT地址处的值，这个值再指向内存中DLL函数的地址<blockquote>
+<p>那么，为什么不直接调用内存中DLL函数的地址呢？</p>
+</blockquote>
+</li>
+<li>即某一DLL函数在不同系统不同语言不同版本中的加载地址都不相同，且发生DLL重定位时，其<code>ImageBase</code>会发生改变。这样编译器记录了该函数IAT地址并预留了位置，文件执行时即发生DLL函数地址写到IAT预留位置的过程<blockquote>
+<p>实际操作中无法保证DLL一定会被加载到PE头指定位置，但总能保证EXE文件被加载到<code>ImageBase</code>，因为后者拥有自己的虚拟内存空间</p>
+</blockquote>
+<h3 id="IMAGE-IMPORT-DESCRIPTOR"><a href="#IMAGE-IMPORT-DESCRIPTOR" class="headerlink" title="_IMAGE_IMPORT_DESCRIPTOR"></a>_IMAGE_IMPORT_DESCRIPTOR</h3></li>
+<li>该结构体记录了PE文件导入哪个库文件，导入多个库即有多个结构体并组成数组，末位有NULL结构体标记；结构体具体定义如下：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IMAGE_IMPORT_DESCRIPTOR</span> &#123;</span></span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        DWORD Characteristics;</span><br><span class="line">        DWORD OriginalFirstThunk; <span class="comment">//INT(Import Name Table)的地址</span></span><br><span class="line">    &#125;;</span><br><span class="line">    DWORD TimeDateStamp;</span><br><span class="line">    DWORD ForwarderChain;</span><br><span class="line">    DWORD NAME; <span class="comment">//库名称字符串的地址</span></span><br><span class="line">    DWORD FirstThunk; <span class="comment">//IAT的地址</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IMAGE_IMPORT_BY_NAME</span> &#123;</span></span><br><span class="line">    WORD Hint;</span><br><span class="line">    BYTE Name[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>INT与IAT均为整型数组(4 bytes)，以NULL结尾，两数组大小应相同；INT中各元素值为IMAGE_IMPORT_BY_NAME结构体指针；<h3 id="IAT-importing"><a href="#IAT-importing" class="headerlink" title="IAT importing"></a>IAT importing</h3></li>
+</ul>
+<p><strong>下面即可总结出PE装载器将一个DLL各个函数地址导入IAT的过程</strong></p>
+<ol>
+<li>读取一个<code>IMAGE_IMPORT_DESCRIPTOR</code>的Name成员，获取DLL库名称</li>
+<li>装载对应库</li>
+<li>读取<code>IID</code>的OriginalFirstThunk成员，获取INT地址</li>
+<li>读取INT中的一个值，获取指向的<code>IMAGE_IMPORT_BY_NAME</code>结构体地址</li>
+<li>依据该结构体获取对应函数的起始地址</li>
+<li>读取<code>IID</code>的FirstThunk成员，获取IAT地址</li>
+<li>将5获得的地址写入IAT对应地址上</li>
+<li>重复4~7直到INT读到NULL<h3 id="分析练习"><a href="#分析练习" class="headerlink" title="分析练习"></a>分析练习</h3></li>
+</ol>
+<ul>
+<li>以Windows的<code>notepad.exe</code>为例<ol>
+<li>打开确认几个签名，<code>MZ</code>@<code>0x00000000</code>占据两个字节, <code>PE</code>@<code>0x000000E0</code>占据四个字节</li>
+<li><code>PE</code>后即为<code>IMAGE_FILE_HEADER</code> <img src="http://anortho.site/privateImgurl/2020/08/5.png">，如图机器标识码为<code>0x014C</code>，节区个数有<code>0x0003</code>个，正下方即是可选头大小<code>0x00E0</code>与特征值<code>0x010F</code></li>
+<li>随即即可确认可选头区域 <img src="http://anortho.site/privateImgurl/2020/08/6.png">：开头字<code>0x010B</code>标示这是32位可选头，正下方双字即为EP地址<code>0x0000739D</code>，EP地址左下方双字即为基址地址<code>0x01000000</code>，基址地址右侧两个双字即分别是节区校准值<code>0x00001000</code>与文件校准值<code>0x00000200</code>(**alignment)；两个双字下一行为不重要数据，再下行开始：第一个双字为内存镜像大小<code>0x00014000</code>，第二个双字为整个Headers大小<code>0x00000400</code>，右侧第三个字为子系统描述符<code>0x0002</code>表示是GUI程序；下一行为不重要数据，再一行开始第二个双字为目录（Directory）数组元素个数<code>0x00000010</code>，之后每个四倍字即描述一个目录，之后先看节区表（Section Table）</li>
+<li>此时我们可以发现右栏ASCII转义区显示了有意义的节区名<img src="http://anortho.site/privateImgurl/2020/08/7.png">，以此可以快速分析，节区名所处四倍字为命名预留区域，下一个双字标示内存中节区所占大小，下一个双字标示<strong>内存中节区的起始地址</strong>，下一个双字标示磁盘文件中节区所占大小，下一个双字标示<strong>磁盘文件中节区的起始地址</strong>，再下下个双字为特征值；这样一个节区头结构体占36个字节</li>
+<li>回到IAT导入过程，在第三步找到的目录数组中的第二个元素即为导入目录，四倍字的前双字标示导入目录在内存中的起始地址，通过内存映射换算：<strong>确定所处节区，减去内存中节区起始地址加上磁盘文件中节区所处地址</strong>，即找到导入描述结构体数组，每个元素由五个双字构成</li>
+<li>第一个双字即为INT的RVA，第四个双字为命名字符串的RVA，第五个双子即为预留IAT的RVA，要在wWinHex上找到这些值均需要经过内存映射换算。 </li>
+</ol>
+</li>
+</ul>
+
+      </section>
+
+      <section class="article-footer">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reverse-Engineering/" rel="tag">#Reverse Engineering</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/infrastructure/" rel="tag">#infrastructure</a></li></ul>
+      </section>
+
+      <section class="article-navs">
+        
+<nav class="card-container card-article-nav">
+  <div class="card-wrap">
+    
+      <div id="article-nav-newer" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(https://files.yande.re/sample/b64dad85396cbcc8e3d7e608ffdb17b5/yande.re%20669524%20sample%20admiral_graf_spee_%28azur_lane%29%20azur_lane%20bikini%20cleavage%20g_uhrabbit%20garter%20swimsuits.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/2020/08/09/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%B7%A5%E7%A8%8B%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/"></a>
+          <strong class="article-nav-caption">Newer</strong>
+          <p class="article-nav-title">
+            
+              小程序工程记录（一）
+            
+          </p>
+        </article>
+      </div>
+    
+    
+      <div id="article-nav-older" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(https://anortho.site/privateImgurl/2020/08/3.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/2020/08/07/CTF-re-80720/"></a>
+          <strong class="article-nav-caption">Older</strong>
+          <p class="article-nav-title">
+            
+              CTF_re_80720
+            
+          </p>
+        </article>
+      </div>
+    
+  </div>
+</nav>
+
+      </section>
+
+      
+
+  
+  
+
+  
+  
+
+
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+     
+    <p>&copy; 2020 <a href="/" target="_blank">heacsing</a></p>
+
+    
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+  <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+  <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+</svg> 
+  </div>
+
+  
+  
+
+
+  <!-- aplayer 音频 start -->
+  <link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  <script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script type="text/javascript">
+    const aplayer = document.querySelectorAll(".aplayer");
+    aplayer && initaplayer(aplayer);
+    function initaplayer(els) {
+      let elsArr = Array.from(els);
+      elsArr.forEach(el => {
+        new APlayer({
+          container: el,
+          audio: { ...el.dataset },
+          theme: "#b7daff",
+          lrcType: 3,
+          autoplay: false,
+          loop: false,
+          mutex: true,
+        });
+      });
+    }
+  </script>
+  <!-- aplayer 音频 end -->
+  
+
+<!-- dplayer 视频 start -->
+<script type="text/javascript" src="https://unpkg.com/dplayer@1.25.1/dist/DPlayer.min.js"></script>
+<script type="text/javascript">
+  const dplayer = document.querySelectorAll(".dplayer");
+  dplayer && initDPlayer(dplayer);
+  function initDPlayer(els) {
+    let elsArr = Array.from(els);
+    elsArr.forEach(el => {
+      let url = el.dataset.url;
+      let cover = el.dataset.cover;
+      let subtitle = el.dataset.subtitle;
+
+      let options = {
+        container: el,
+        video: { url: url, pic: cover },
+        theme: "#b7daff",
+        autoplay: false,
+        loop: false,
+        mutex: true,
+      }
+
+      if (subtitle) {
+        options.subtitle = {
+          url: el.dataset.subtitle,
+        }
+      }
+      new DPlayer(options);
+    });
+  }
+</script>
+<!-- dplayer 视频 end -->
+
+
+<!-- waterfall 瀑布流 start -->
+
+<script src="/lib/waterfall.min.js"></script>
+
+<script type="text/javascript">
+
+const waterfalls = document.querySelectorAll(".waterfall-container");
+
+if (waterfalls && waterfalls.length > 0) {
+  waterfalls.forEach((waterfall, index) => {
+    let cls = "waterfall-container-" + index;
+    waterfall.classList.add(cls);
+    initWaterfall(cls, waterfall);
+  });
+}
+
+function initWaterfall(selector, el) {
+  const options = {};
+  if (Object.keys(el.dataset).length > 0) {
+    for (let k in el.dataset) {
+      options[k] = el.dataset[k];
+    }
+  }
+  waterfall(`.${selector}`, options);
+}
+</script>
+<!-- waterfall 瀑布流 end -->
+
+
+  <!-- zoom start -->
+  
+<script src="/lib/zoom.min.js"></script>
+
+  <script type="text/javascript">
+    document.querySelector(".article-content") && zoom(".article-content");
+  </script>
+  <!-- zoom end -->
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/poi.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
