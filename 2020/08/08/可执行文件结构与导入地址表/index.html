@@ -97,7 +97,7 @@
   
   
     <div class="header-content">
-      <div class="post-image" style="background-image: url(https://files.yande.re/sample/c8d44a34a30453a5290c7a13378df3f8/yande.re%20669529%20sample%20bodysuit%20crossover%20gantz%20heels%20liang_xing%20mecha_musume%20nier_automata%20see_through%20sword%20thighhighs%20yorha_no.2_type_b%20yorha_type_a_no._2.jpg)"></div>
+      <div class="post-image" style="background-image: url(https://anortho.site/privateImgurl/2020/08/8.jpg)"></div>
       <div class="post-text">
         <div class="type-wrap">
           <a class="article-category-link" href="/categories/notes/">notes</a>
@@ -215,9 +215,9 @@
 <ul>
 <li>以Windows的<code>notepad.exe</code>为例<ol>
 <li>打开确认几个签名，<code>MZ</code>@<code>0x00000000</code>占据两个字节, <code>PE</code>@<code>0x000000E0</code>占据四个字节</li>
-<li><code>PE</code>后即为<code>IMAGE_FILE_HEADER</code> <img src="http://anortho.site/privateImgurl/2020/08/5.png">，如图机器标识码为<code>0x014C</code>，节区个数有<code>0x0003</code>个，正下方即是可选头大小<code>0x00E0</code>与特征值<code>0x010F</code></li>
-<li>随即即可确认可选头区域 <img src="http://anortho.site/privateImgurl/2020/08/6.png">：开头字<code>0x010B</code>标示这是32位可选头，正下方双字即为EP地址<code>0x0000739D</code>，EP地址左下方双字即为基址地址<code>0x01000000</code>，基址地址右侧两个双字即分别是节区校准值<code>0x00001000</code>与文件校准值<code>0x00000200</code>(**alignment)；两个双字下一行为不重要数据，再下行开始：第一个双字为内存镜像大小<code>0x00014000</code>，第二个双字为整个Headers大小<code>0x00000400</code>，右侧第三个字为子系统描述符<code>0x0002</code>表示是GUI程序；下一行为不重要数据，再一行开始第二个双字为目录（Directory）数组元素个数<code>0x00000010</code>，之后每个四倍字即描述一个目录，之后先看节区表（Section Table）</li>
-<li>此时我们可以发现右栏ASCII转义区显示了有意义的节区名<img src="http://anortho.site/privateImgurl/2020/08/7.png">，以此可以快速分析，节区名所处四倍字为命名预留区域，下一个双字标示内存中节区所占大小，下一个双字标示<strong>内存中节区的起始地址</strong>，下一个双字标示磁盘文件中节区所占大小，下一个双字标示<strong>磁盘文件中节区的起始地址</strong>，再下下个双字为特征值；这样一个节区头结构体占36个字节</li>
+<li><code>PE</code>后即为<code>IMAGE_FILE_HEADER</code> <img src="https://anortho.site/privateImgurl/2020/08/5.png">，如图机器标识码为<code>0x014C</code>，节区个数有<code>0x0003</code>个，正下方即是可选头大小<code>0x00E0</code>与特征值<code>0x010F</code></li>
+<li>随即即可确认可选头区域 <img src="https://anortho.site/privateImgurl/2020/08/6.png">：开头字<code>0x010B</code>标示这是32位可选头，正下方双字即为EP地址<code>0x0000739D</code>，EP地址左下方双字即为基址地址<code>0x01000000</code>，基址地址右侧两个双字即分别是节区校准值<code>0x00001000</code>与文件校准值<code>0x00000200</code>(**alignment)；两个双字下一行为不重要数据，再下行开始：第一个双字为内存镜像大小<code>0x00014000</code>，第二个双字为整个Headers大小<code>0x00000400</code>，右侧第三个字为子系统描述符<code>0x0002</code>表示是GUI程序；下一行为不重要数据，再一行开始第二个双字为目录（Directory）数组元素个数<code>0x00000010</code>，之后每个四倍字即描述一个目录，之后先看节区表（Section Table）</li>
+<li>此时我们可以发现右栏ASCII转义区显示了有意义的节区名<img src="https://anortho.site/privateImgurl/2020/08/7.png">，以此可以快速分析，节区名所处四倍字为命名预留区域，下一个双字标示内存中节区所占大小，下一个双字标示<strong>内存中节区的起始地址</strong>，下一个双字标示磁盘文件中节区所占大小，下一个双字标示<strong>磁盘文件中节区的起始地址</strong>，再下下个双字为特征值；这样一个节区头结构体占36个字节</li>
 <li>回到IAT导入过程，在第三步找到的目录数组中的第二个元素即为导入目录，四倍字的前双字标示导入目录在内存中的起始地址，通过内存映射换算：<strong>确定所处节区，减去内存中节区起始地址加上磁盘文件中节区所处地址</strong>，即找到导入描述结构体数组，每个元素由五个双字构成</li>
 <li>第一个双字即为INT的RVA，第四个双字为命名字符串的RVA，第五个双子即为预留IAT的RVA，要在wWinHex上找到这些值均需要经过内存映射换算。 </li>
 </ol>
@@ -238,7 +238,7 @@
       <div id="article-nav-newer" class="card-item img">
         <article>
           
-            <div class="card-cover" style="background-image: url(https://files.yande.re/sample/b64dad85396cbcc8e3d7e608ffdb17b5/yande.re%20669524%20sample%20admiral_graf_spee_%28azur_lane%29%20azur_lane%20bikini%20cleavage%20g_uhrabbit%20garter%20swimsuits.jpg)"></div>
+            <div class="card-cover" style="background-image: url(https://anortho.site/privateImgurl/2020/08/9.png)"></div>
           
           <a class="card-link article-nav-link" href="/2020/08/09/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%B7%A5%E7%A8%8B%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/"></a>
           <strong class="article-nav-caption">Newer</strong>
