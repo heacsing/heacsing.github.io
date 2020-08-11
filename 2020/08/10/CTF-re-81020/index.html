@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  
+    <meta name="description" content="personnal blog">
+  
+
+  
+    <meta name="keywords" content="blog；computer science；CTF；">
+  
+
+  
+    <meta name="author" content="heacsing">
+  
+
+  
+
+  
+
+  <title>CTF_re_81020 | heacsing&#39;s Lounge</title>
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.6/styles/default.min.css" rel="stylesheet">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <div class="root-container">
+    <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          heacsing&#39;s Lounge
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">HOME</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">ABOUT</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">LINK</a></li>
+        
+          <li class="navbar-list-item"><a href="/tags">TAGS</a></li>
+        
+          <li class="navbar-list-item"><a href="/categories">CATEGORIES</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    
+<!-- header container -->
+<header class="header-container post">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-image" style="background-image: url(https://anortho.site/privateImgurl/2020/08/3.jpg)"></div>
+      <div class="post-text">
+        <div class="type-wrap">
+          <a class="article-category-link" href="/categories/writeup/">writeup</a>
+        </div>
+        <h1 class="title-wrap">CTF_re_81020</h1>
+        <h2 class="title-sub-wrap">
+          <strong>heacsing</strong>
+          <span>发布于</span>
+          
+  <a href="javascript:;" class="article-date">
+    <time datetime="2020-08-10T07:26:32.000Z" itemprop="datePublished">2020-08-10</time>
+  </a>
+
+        </h2>
+      </div>
+    </div>
+  
+
+  
+  
+
+  </header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+
+<div class="body-container">
+  <article class="content-container article-container">
+    <div class="article-content">
+      
+      
+
+      <section class="article-entry">
+        <h1 id="RSA算法题"><a href="#RSA算法题" class="headerlink" title="RSA算法题"></a>RSA算法题</h1><p>URL：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#rsa">https://buuoj.cn/challenges#rsa</a></p>
+<h2 id="RSA基本步骤"><a href="#RSA基本步骤" class="headerlink" title="RSA基本步骤"></a>RSA基本步骤</h2><ol>
+<li>选择两个大素数p和q，计算出模数N = p * q</li>
+<li>计算φ = (p−1) * (q−1) 即N的欧拉函数，然后选择一个e (1&lt;e&lt;φ)，且e和φ互质</li>
+<li>取e的模反数为d，计算方法: e * d ≡ 1 (mod φ)</li>
+<li>对明文m进行加密：c = pow(m, e, N)，得到的c即为密文</li>
+<li>对密文c进行解密，m = pow(c, d, N)，得到的m即为明文<h3 id="简单整理"><a href="#简单整理" class="headerlink" title="简单整理"></a>简单整理</h3></li>
+</ol>
+<ul>
+<li>p和q：大整数N的两个因子factor</li>
+<li>N：大整数被称为模数modulus</li>
+<li>e和d：互为模反数的两个指数exponent</li>
+<li>c和m：分别指密文和明文，这里一般是十进制数<br>便得到了公钥$(N,e)$和私钥$(N,d)$<h2 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h2></li>
+</ul>
+<ol>
+<li>提取公钥，将<code>pub.key</code>拖到<a target="_blank" rel="noopener" href="http://tool.chacuo.net/cryptrsakeyparse">在线网站</a>得到<blockquote>
+<p>e = 65537<br/>N=86934482296048119190666062003494800588905656017203025617216654058378322103517</p>
+</blockquote>
+</li>
+<li>解析公钥，在<a target="_blank" rel="noopener" href="http://www.factordb.com/index.php?query=86934482296048119190666062003494800588905656017203025617216654058378322103517">因子库</a>内查询得到<blockquote>
+<p>p = 285960468890451637935629440372639283459<br/>q = 304008741604601924494328155975272418463</p>
+</blockquote>
+</li>
+<li>脚本解密<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line"></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">n = <span class="number">86934482296048119190666062003494800588905656017203025617216654058378322103517</span></span><br><span class="line">p = <span class="number">285960468890451637935629440372639283459</span></span><br><span class="line">q = <span class="number">304008741604601924494328155975272418463</span></span><br><span class="line"></span><br><span class="line">phin = (q<span class="number">-1</span>)*(p<span class="number">-1</span>)</span><br><span class="line">d = gmpy2.invert(e, phin)</span><br><span class="line"></span><br><span class="line">key = rsa.PrivateKey(n, e, int(d), p, q)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&quot;C:\\Users\\10245\\Desktop\\output\\flag.enc&quot;</span>, <span class="string">&quot;rb+&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f = f.read()</span><br><span class="line">    print(rsa.decrypt(f, key))</span><br></pre></td></tr></table></figure>
+<h3 id="小解"><a href="#小解" class="headerlink" title="小解"></a>小解</h3></li>
+</ol>
+<ul>
+<li>RSA算法应属于Crypto类型题目，这是最最基础的考法，基本不涉及算法知识<h1 id="CrackRTF"><a href="#CrackRTF" class="headerlink" title="CrackRTF"></a>CrackRTF</h1>URL: <a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#CrackRTF">https://buuoj.cn/challenges#CrackRTF</a></li>
+<li>RTF：Rich Text Format 富文本格式<h2 id="解题步骤"><a href="#解题步骤" class="headerlink" title="解题步骤"></a>解题步骤</h2></li>
+<li>IDA打开反汇编，顺利得到代码进行分析</li>
+<li>大致为三重验证：<ol>
+<li>六位数字后接<code>@DBApp</code>经算法加密后与<code>6E32D0943418C2C33385BC35A1470250DD8923A9</code></li>
+<li>六位字符后接1步骤加密前明文再经算法加密后与<code>27019e688a4e62a649fd99cadaafdb4e</code>匹配</li>
+<li>上述明文异或<code>resource</code>内某字符串，如成功则出flag</li>
+</ol>
+</li>
+<li>1/2步骤均调用了Win32API中的CryptCreateHash()函数，有一个难点是通过所给参数确定加密算法，需要仔细阅读相关文档</li>
+<li>步骤1 识别为sha1算法，也可爆破/步骤2 识别为MD5算法，无法爆破：此处解法为到步骤3 中，用<code>ResourceHacker</code>检出目标字符串前六位，逆异或得到(不知道有无substitute</li>
+<li>最后启动程序输入两次密码得flag</li>
+<li><strong>耐心耐心耐心</strong><h1 id="py逆向"><a href="#py逆向" class="headerlink" title="py逆向"></a>py逆向</h1>URL: <a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#[GWCTF%202019]pyre">https://buuoj.cn/challenges#[GWCTF%202019]pyre</a><h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2></li>
+<li>pyc字节码是由py文件编译时生成的中间文件，但一般不会在普通工程中出现。可由<a target="_blank" rel="noopener" href="https://github.com/rocky/python-uncompyle6">uncompyle6</a>一键反编译</li>
+<li>一些二进制文件打开后若出现喝多<code>py.</code>字符如节区命名，可能即是经过打包后的py工程文件，常见的有PyInstaller、Py2exe</li>
+<li><strong>熟悉py语言，练习py脚本！！！！</strong></li>
+<li>使用命令<code>$ uncompyle6 &#123;&#123;file&#125;&#125; | out-file script.py</code>得到py文件<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uncompyle6 version 3.7.3</span></span><br><span class="line"><span class="comment"># Python bytecode 2.7 (62211)</span></span><br><span class="line"><span class="comment"># Decompiled from: Python 3.7.7 (tags/v3.7.7:d7c567b08f, Mar 10 2020, 10:41:24) [MSC v.1900 64 bit (AMD64)]</span></span><br><span class="line"><span class="comment"># Embedded file name: encode.py</span></span><br><span class="line"><span class="comment"># Compiled at: 2019-08-19 21:01:57</span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">&#x27;Welcome to Re World!&#x27;</span>)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">&#x27;Your input1 is your flag~&#x27;</span>)</span><br><span class="line">input1=input()</span><br><span class="line">l = len(input1)</span><br><span class="line">code=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(l):</span><br><span class="line">    num = ((input1[i]+ i) % <span class="number">128</span> + <span class="number">128</span>) % <span class="number">128</span></span><br><span class="line">    code += chr(num)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(l - <span class="number">1</span>):</span><br><span class="line">    code[i] = code[i] ^ code[(i + <span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> (code)</span><br><span class="line">code = [<span class="string">&#x27;\x1f&#x27;</span>, <span class="string">&#x27;\x12&#x27;</span>, <span class="string">&#x27;\x1d&#x27;</span>, <span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;\x01&#x27;</span>, <span class="string">&#x27;\x06&#x27;</span>, <span class="string">&#x27;\x14&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;,&#x27;</span>, <span class="string">&#x27;\x1b&#x27;</span>, <span class="string">&#x27;U&#x27;</span>, <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;:&#x27;</span>, <span class="string">&#x27;\x01&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;;&#x27;</span>, <span class="string">&#x27;%&#x27;</span>, <span class="string">&#x27;\x13&#x27;</span>]</span><br><span class="line"><span class="comment"># okay decompiling .\attachment (1).pyc</span></span><br></pre></td></tr></table></figure></li>
+<li>大意应该是输入flag 经两次循环加密后要等于<code>code</code><h2 id="解题，"><a href="#解题，" class="headerlink" title="解题，"></a>解题，</h2></li>
+<li>可以写C脚本，但自己python能力太弱了还是多练一下吧<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">code = [<span class="string">&#x27;\x1f&#x27;</span>, <span class="string">&#x27;\x12&#x27;</span>, <span class="string">&#x27;\x1d&#x27;</span>, <span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;\x01&#x27;</span>, <span class="string">&#x27;\x06&#x27;</span>, <span class="string">&#x27;\x14&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;,&#x27;</span>, <span class="string">&#x27;\x1b&#x27;</span>, <span class="string">&#x27;U&#x27;</span>, <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;:&#x27;</span>, <span class="string">&#x27;\x01&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;;&#x27;</span>, <span class="string">&#x27;%&#x27;</span>, <span class="string">&#x27;\x13&#x27;</span>]</span><br><span class="line">l=len(code)</span><br><span class="line">print(<span class="string">&#x27;Welcome to Reverse!&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(l<span class="number">-2</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">    code[x]=chr(ord(code[x])^ord(code[x+<span class="number">1</span>]))</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(l):</span><br><span class="line">    print(chr((ord(code[x])-x)%<span class="number">128</span>),end=<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+<li>中间写出很多不忍直视的代码来，简单记一下：<ol>
+<li>python字符串不可修改，和JS一样</li>
+<li>取字符时用好ord()和chr()函数</li>
+<li><code>&#123;&#123;list name&#125;&#125;[::-1]</code>和<code>range(start,stop[,step])</code>的用法</li>
+</ol>
+</li>
+</ul>
+
+      </section>
+
+      <section class="article-footer">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">#CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reverse-Engineering/" rel="tag">#Reverse Engineering</a></li></ul>
+      </section>
+
+      <section class="article-navs">
+        
+<nav class="card-container card-article-nav">
+  <div class="card-wrap">
+    
+    
+      <div id="article-nav-older" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(https://anortho.site/privateImgurl/2020/08/9.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/2020/08/09/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%B7%A5%E7%A8%8B%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/"></a>
+          <strong class="article-nav-caption">Older</strong>
+          <p class="article-nav-title">
+            
+              小程序工程记录（一）
+            
+          </p>
+        </article>
+      </div>
+    
+  </div>
+</nav>
+
+      </section>
+
+      
+
+  
+  
+
+  
+  
+
+
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+     
+    <p>&copy; 2020 <a href="/" target="_blank">heacsing</a></p>
+
+    
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+  <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+  <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+</svg> 
+  </div>
+
+  
+  
+
+
+  <!-- aplayer 音频 start -->
+  <link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  <script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script type="text/javascript">
+    const aplayer = document.querySelectorAll(".aplayer");
+    aplayer && initaplayer(aplayer);
+    function initaplayer(els) {
+      let elsArr = Array.from(els);
+      elsArr.forEach(el => {
+        new APlayer({
+          container: el,
+          audio: { ...el.dataset },
+          theme: "#b7daff",
+          lrcType: 3,
+          autoplay: false,
+          loop: false,
+          mutex: true,
+        });
+      });
+    }
+  </script>
+  <!-- aplayer 音频 end -->
+  
+
+<!-- dplayer 视频 start -->
+<script type="text/javascript" src="https://unpkg.com/dplayer@1.25.1/dist/DPlayer.min.js"></script>
+<script type="text/javascript">
+  const dplayer = document.querySelectorAll(".dplayer");
+  dplayer && initDPlayer(dplayer);
+  function initDPlayer(els) {
+    let elsArr = Array.from(els);
+    elsArr.forEach(el => {
+      let url = el.dataset.url;
+      let cover = el.dataset.cover;
+      let subtitle = el.dataset.subtitle;
+
+      let options = {
+        container: el,
+        video: { url: url, pic: cover },
+        theme: "#b7daff",
+        autoplay: false,
+        loop: false,
+        mutex: true,
+      }
+
+      if (subtitle) {
+        options.subtitle = {
+          url: el.dataset.subtitle,
+        }
+      }
+      new DPlayer(options);
+    });
+  }
+</script>
+<!-- dplayer 视频 end -->
+
+
+<!-- waterfall 瀑布流 start -->
+
+<script src="/lib/waterfall.min.js"></script>
+
+<script type="text/javascript">
+
+const waterfalls = document.querySelectorAll(".waterfall-container");
+
+if (waterfalls && waterfalls.length > 0) {
+  waterfalls.forEach((waterfall, index) => {
+    let cls = "waterfall-container-" + index;
+    waterfall.classList.add(cls);
+    initWaterfall(cls, waterfall);
+  });
+}
+
+function initWaterfall(selector, el) {
+  const options = {};
+  if (Object.keys(el.dataset).length > 0) {
+    for (let k in el.dataset) {
+      options[k] = el.dataset[k];
+    }
+  }
+  waterfall(`.${selector}`, options);
+}
+</script>
+<!-- waterfall 瀑布流 end -->
+
+
+  <!-- zoom start -->
+  
+<script src="/lib/zoom.min.js"></script>
+
+  <script type="text/javascript">
+    document.querySelector(".article-content") && zoom(".article-content");
+  </script>
+  <!-- zoom end -->
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/poi.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
