@@ -156,7 +156,7 @@
 </blockquote>
 </li>
 <li>脚本解密<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line"></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">n = <span class="number">86934482296048119190666062003494800588905656017203025617216654058378322103517</span></span><br><span class="line">p = <span class="number">285960468890451637935629440372639283459</span></span><br><span class="line">q = <span class="number">304008741604601924494328155975272418463</span></span><br><span class="line"></span><br><span class="line">phin = (q<span class="number">-1</span>)*(p<span class="number">-1</span>)</span><br><span class="line">d = gmpy2.invert(e, phin)</span><br><span class="line"></span><br><span class="line">key = rsa.PrivateKey(n, e, int(d), p, q)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&quot;C:\\Users\\10245\\Desktop\\output\\flag.enc&quot;</span>, <span class="string">&quot;rb+&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f = f.read()</span><br><span class="line">    print(rsa.decrypt(f, key))</span><br></pre></td></tr></table></figure>
-<h3 id="小解"><a href="#小解" class="headerlink" title="小解"></a>小解</h3></li>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3></li>
 </ol>
 <ul>
 <li>RSA算法应属于Crypto类型题目，这是最最基础的考法，基本不涉及算法知识<h1 id="CrackRTF"><a href="#CrackRTF" class="headerlink" title="CrackRTF"></a>CrackRTF</h1>URL: <a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#CrackRTF">https://buuoj.cn/challenges#CrackRTF</a></li>
@@ -196,6 +196,21 @@
         
 <nav class="card-container card-article-nav">
   <div class="card-wrap">
+    
+      <div id="article-nav-newer" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(https://anortho.site/privateImgurl/2020/08/11.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/2020/08/13/First-Order-Motion-Model-for-Image-Animation%E7%9A%84%E5%BA%94%E7%94%A8/"></a>
+          <strong class="article-nav-caption">Newer</strong>
+          <p class="article-nav-title">
+            
+              First-Order-Motion-Model-for-Image-Animation的应用
+            
+          </p>
+        </article>
+      </div>
     
     
       <div id="article-nav-older" class="card-item img">

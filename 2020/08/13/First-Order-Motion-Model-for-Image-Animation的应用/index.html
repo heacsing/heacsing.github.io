@@ -24,7 +24,7 @@
 
   
 
-  <title>tags | heacsing&#39;s Lounge</title>
+  <title>First-Order-Motion-Model-for-Image-Animation的应用 | heacsing&#39;s Lounge</title>
 
   
 
@@ -80,10 +80,7 @@
 
     
 <!-- header container -->
-<header class="header-container">
-
-  
-  
+<header class="header-container post">
 
   
   
@@ -100,47 +97,119 @@
   
   
     <div class="header-content">
-      <div class="post-image" style="background-image: url(https://qiniu.miiiku.xyz/src/images/banner.jpg)"></div>
+      <div class="post-image" style="background-image: url(https://anortho.site/privateImgurl/2020/08/11.jpg)"></div>
       <div class="post-text">
-        <h1 class="title-wrap">tags</h1>
-        
-        <h2 class="title-sub-wrap">共有7个标签</h2>
-        
+        <div class="type-wrap">
+          <a class="article-category-link" href="/categories/application/">application</a>
+        </div>
+        <h1 class="title-wrap">First-Order-Motion-Model-for-Image-Animation的应用</h1>
+        <h2 class="title-sub-wrap">
+          <strong>heacsing</strong>
+          <span>发布于</span>
+          
+  <a href="javascript:;" class="article-date">
+    <time datetime="2020-08-13T11:50:25.000Z" itemprop="datePublished">2020-08-13</time>
+  </a>
+
+        </h2>
       </div>
     </div>
   
 
+  
+  
+
   </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
+<!-- 文章内容 -->
 
 <div class="body-container">
-  
-  
+  <article class="content-container article-container">
+    <div class="article-content">
+      
+      
 
-  
-  
+      <section class="article-entry">
+        <h1 id="First-Order-Motion-Model-for-Image-Animation的应用"><a href="#First-Order-Motion-Model-for-Image-Animation的应用" class="headerlink" title="First-Order-Motion-Model-for-Image-Animation的应用"></a>First-Order-Motion-Model-for-Image-Animation的应用</h1><h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><ul>
+<li>大学同学发来了这篇<a target="_blank" rel="noopener" href="https://papers.nips.cc/paper/8935-first-order-motion-model-for-image-animation">paper</a>和它的repo，测试的模型已十分完善，指路了1.6G的数据集，并且提供了现成的ipynb文件，不需要有像样的机器学习gpu就能在Google的colab上跑，非常人性化<blockquote>
+<p>The IPython Notebook is now known as the Jupyter Notebook. It is an interactive computational environment, in which you can combine code execution, rich text, mathematics, plots and rich media. For more, see <a target="_blank" rel="noopener" href="https://jupyter.org/">https://jupyter.org/</a></p>
+</blockquote>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2></li>
+</ul>
+<ol>
+<li>首先fork印度神们的<a target="_blank" rel="noopener" href="https://github.com/AliaksandrSiarohin/first-order-model">repo</a>，在文件<code>demo.ipynb</code>第一个代码块内加上一句<blockquote>
+<p>!pip install PyYAML==5.3.1</p>
+</blockquote>
+</li>
+<li>下载数据集<a target="_blank" rel="noopener" href="https://mega.nz/file/4cAyTIpT#5c5n43cLo4xc_uSgyBMIxMLB1S3_tNtzeiEZALnIyyc">vox-cpk.pth.tar</a>和<a target="_blank" rel="noopener" href="https://mega.nz/file/MNJw3ASA#ykp34kcenxKAEoTAW6__UhSrkxdchzqBq2p6qSzCkLE">vox-adv-cpk.pth.tar</a></li>
+<li>进入自己的Google Drive，根目录下创建名为<code>first-order-motion-model</code>的文件夹，上传两个数据集</li>
+<li>准备好两个元数据，一个<code>.mp4</code>视频和一个<code>.png</code>图片，大小都压缩到<em>256px</em>，识别出媒体内同类事物，然后让图片模仿视频运动起来，具体到人脸来说就要限制视频和图片的拍摄角度接近一致，视频最好不要有频繁侧脸转身的动作</li>
+<li>将元数据分别命名为<code>02.png</code>和<code>04.png</code>上传到新建的文件夹下，打开Google的<code>Colab</code>，如果已经将Google账号与GitHub账号绑定的话，左上角<code>File</code>-&gt;<code>Open</code>应该会自动识别出你所有仓库下的<code>.ipynb</code>文件</li>
+<li>然后按顺序依次执行即可，到<code>Perform Image Animation</code>这一步即可，在左栏<code>File</code>生成选项中找到<code>generated.mp4</code>下载即可</li>
+<li>生成品应该播放速度比元数据慢两倍以上并且没有声音，自行编辑即可</li>
+</ol>
 
-  
-  
-    <article class="content-container next">
-      <div class="article-content">
-        <div class="tags-cloud">
-          <a href="/tags/CTF/" style="font-size: 2em; color: #fb8c60">CTF</a> <a href="/tags/Reverse-Engineering/" style="font-size: 3em; color: #ff5858">Reverse Engineering</a> <a href="/tags/front-end/" style="font-size: 2em; color: #fb8c60">front end</a> <a href="/tags/gitpage/" style="font-size: 1em; color: #f7c068">gitpage</a> <a href="/tags/infrastructure/" style="font-size: 1em; color: #f7c068">infrastructure</a> <a href="/tags/language/" style="font-size: 1em; color: #f7c068">language</a> <a href="/tags/wx-miniprogramme/" style="font-size: 1em; color: #f7c068">wx miniprogramme</a>
-        </div>
+      </section>
+
+      <section class="article-footer">
+        
+      </section>
+
+      <section class="article-navs">
+        
+<nav class="card-container card-article-nav">
+  <div class="card-wrap">
+    
+      <div id="article-nav-newer" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(https://anortho.site/privateImgurl/2020/08/3.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/2020/08/14/CTF-re-81420/"></a>
+          <strong class="article-nav-caption">Newer</strong>
+          <p class="article-nav-title">
+            
+              CTF-re-81420
+            
+          </p>
+        </article>
       </div>
-    </article>
-  
+    
+    
+      <div id="article-nav-older" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(https://anortho.site/privateImgurl/2020/08/3.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/2020/08/10/CTF-re-81020/"></a>
+          <strong class="article-nav-caption">Older</strong>
+          <p class="article-nav-title">
+            
+              CTF_re_81020
+            
+          </p>
+        </article>
+      </div>
+    
+  </div>
+</nav>
+
+      </section>
+
+      
 
   
   
 
   
   
+
+
+    </div>
+  </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
