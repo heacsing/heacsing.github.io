@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  
+    <meta name="description" content="personnal blog">
+  
+
+  
+    <meta name="keywords" content="blog；computer science；CTF；">
+  
+
+  
+    <meta name="author" content="heacsing">
+  
+
+  
+
+  
+
+  <title>CTF-re-信安国赛初赛 | heacsing&#39;s Lounge</title>
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.6/styles/default.min.css" rel="stylesheet">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <div class="root-container">
+    <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          heacsing&#39;s Lounge
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">HOME</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">ABOUT</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">LINK</a></li>
+        
+          <li class="navbar-list-item"><a href="/tags">TAGS</a></li>
+        
+          <li class="navbar-list-item"><a href="/categories">CATEGORIES</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    
+<!-- header container -->
+<header class="header-container post">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-image" style="background-image: url(https://qiniu.miiiku.xyz/src/images/banner.jpg)"></div>
+      <div class="post-text">
+        <div class="type-wrap">
+          <a class="article-category-link" href="/categories/writeup/">writeup</a>
+        </div>
+        <h1 class="title-wrap">CTF-re-信安国赛初赛</h1>
+        <h2 class="title-sub-wrap">
+          <strong>heacsing</strong>
+          <span>发布于</span>
+          
+  <a href="javascript:;" class="article-date">
+    <time datetime="2020-08-23T07:46:20.000Z" itemprop="datePublished">2020-08-23</time>
+  </a>
+
+        </h2>
+      </div>
+    </div>
+  
+
+  
+  
+
+  </header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+
+<div class="body-container">
+  <article class="content-container article-container">
+    <div class="article-content">
+      
+      
+
+      <section class="article-entry">
+        <h1 id="z3"><a href="#z3" class="headerlink" title="z3"></a>z3</h1><h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><blockquote>
+<p>Z3是由微软公司开发的一个优秀的SMT求解器，它能够检查逻辑表达式的可满足性，可以用来软件/硬件验证和测试，约束求解，混合系统分析，安全性研究，生物学研究（计算机分析）以及几何问题。通俗的来讲我们可以简单理解为它是一个解方程的计算器。</p>
+</blockquote>
+<ol>
+<li>z3py的安装<ul>
+<li>应该可以直接使用pip安装，有两个包：<code>z3</code>和<code>z3-solver</code></li>
+<li>linux下是使用GitHub官方仓库build</li>
+</ul>
+</li>
+<li>语法学习<ul>
+<li>注意变量使用给定的函数创建</li>
+<li>几个常用API<blockquote>
+<p>Solver()：创建一个通用求解器，创建后我们可以添加我们的约束条件，进行下一步的求解。<br>add()：添加约束条件，通常在solver()命令之后，添加的约束条件通常是一个逻辑等式。<br>check()：通常用来判断在添加完约束条件后，来检测解的情况，有解的时候会回显sat，无解的时候会回显unsat。<br>model()：在存在解的时候，该函数会将每个限制条件所对应的解集取交集，进而得出正解。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>一个演示例子 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建基本变量</span></span><br><span class="line"><span class="keyword">from</span> z3 <span class="keyword">import</span> *</span><br><span class="line">x=Int(<span class="string">&#x27;x&#x27;</span>)</span><br><span class="line">y=Int(<span class="string">&#x27;y&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建求解器并给定约束条件</span></span><br><span class="line">s=Solver()</span><br><span class="line">s.add(x+y==<span class="number">5</span>)</span><br><span class="line">s.add(<span class="number">2</span>*x+<span class="number">3</span>*y==<span class="number">14</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 约束求解</span></span><br><span class="line"><span class="keyword">if</span> s.check()==sat:</span><br><span class="line">    result=s.model()    </span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<blockquote>
+<p>另一个缺憾：python struct: 解决bytes和其他二进制数据类型的转换</p>
+</blockquote>
+<ol>
+<li>struct.pack(str,bytes)将任意数据打包成bytes<ul>
+<li>str的可用参数：<ol>
+<li>str[0]:<code>&gt;</code> / <code>&lt;</code> 来指定字节序</li>
+<li>之后用一些字母标示对应的字节大小：常用的有<code>h</code>、<code>i</code>、<code>q</code>分别对应2、4、8个字节，一般来说标示一次可以对应一个/所有字节，前面加上数字即可指定个数</li>
+</ol>
+</li>
+<li>bytes：可以是一个或很多个待打包值，</li>
+</ul>
+</li>
+<li>struct.unpack(str,bytes)将bytes按指定格式解包，具体参数同上；返回一个元组</li>
+</ol>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>ida打开即明显提示为z3题，脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> z3 <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line">varList = [<span class="string">&#x27;v&#x27;</span> + str(i) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">46</span>, <span class="number">100</span>)]<span class="comment"># 命名v46~v99</span></span><br><span class="line"></span><br><span class="line">solver = Solver()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> var <span class="keyword">in</span> varList:</span><br><span class="line">    globals()[var] = Int(var) <span class="comment"># 创建z3变量</span></span><br><span class="line">    solver.add(globals()[var] &gt;= <span class="number">0</span>, globals()[var] &lt;= <span class="number">255</span>) <span class="comment"># 基本条件：大小1字节</span></span><br><span class="line"></span><br><span class="line">resList = [<span class="number">0x174F0000</span>, <span class="number">0xF69C0000</span>, <span class="number">0xDB8D0000</span>, <span class="number">0xA68E0000</span>, <span class="number">0x29690000</span>, <span class="number">0x11990000</span>, <span class="number">0xA2400000</span>, <span class="number">0x3E2F0000</span>, <span class="number">0xB6620000</span>, <span class="number">0x824B0000</span>, <span class="number">0x6C480000</span>, <span class="number">0x02400000</span>, <span class="number">0xD7520000</span>, <span class="number">0xEF2D0000</span>, <span class="number">0xDC280000</span>, <span class="number">0x0D640000</span>, <span class="number">0x8F520000</span>, <span class="number">0x3B610000</span>, <span class="number">0x81470000</span>, <span class="number">0x176B0000</span>, <span class="number">0x37320000</span>, <span class="number">0x932A0000</span>, <span class="number">0x5F610000</span>, <span class="number">0xBE500000</span>, <span class="number">0x8E590000</span>, <span class="number">0x56460000</span>, <span class="number">0x315B0000</span>, <span class="number">0x3A310000</span>, <span class="number">0x10300000</span>, <span class="number">0xFE670000</span>, <span class="number">0x5F4D0000</span>, <span class="number">0xDB580000</span>, <span class="number">0x99370000</span>, <span class="number">0xA0600000</span>, <span class="number">0x50270000</span>, <span class="number">0x59370000</span>, <span class="number">0x53890000</span>, <span class="number">0x22710000</span>, <span class="number">0xF9810000</span>, <span class="number">0x24550000</span>, <span class="number">0x71890000</span>, <span class="number">0x1D3A0000</span>, <span class="number">0x00000000</span>, <span class="number">0x00000000</span>, <span class="number">0x00000000</span>, <span class="number">0x00000000</span>, <span class="number">0x00000000</span>, <span class="number">0x00000000</span>, <span class="number">0x003F4000</span>, <span class="number">0x00000000</span>, <span class="number">0x00000000</span>, <span class="number">0x00000000</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>, <span class="number">46</span>):</span><br><span class="line">    globals()[<span class="string">&#x27;v&#x27;</span> + str(i)] = struct.unpack(<span class="string">&#x27;&lt;i&#x27;</span>, bytes.fromhex(<span class="string">f&quot;<span class="subst">&#123;resList[i - <span class="number">4</span>]:x&#125;</span>&quot;</span>.rjust(<span class="number">8</span>, <span class="string">&#x27;0&#x27;</span>)))[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">print(v5)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ida打开后显示的条件👇</span></span><br><span class="line"></span><br><span class="line">solver.add(v4 == <span class="number">34</span> * v49 + <span class="number">12</span> * v46 + <span class="number">53</span> * v47 + <span class="number">6</span> * v48 + <span class="number">58</span> * v50 + <span class="number">36</span> * v51 + v52, v5 == <span class="number">27</span> * v50 + <span class="number">73</span> * v49 + <span class="number">12</span> * v48 + <span class="number">83</span> * v46 + <span class="number">85</span> * v47 + <span class="number">96</span> * v51 + <span class="number">52</span> * v52, v6 == <span class="number">24</span> * v48 + <span class="number">78</span> * v46 + <span class="number">53</span> * v47 + <span class="number">36</span> * v49 + <span class="number">86</span> * v50 + <span class="number">25</span> * v51 + <span class="number">46</span> * v52, v7 == <span class="number">78</span> * v47 + <span class="number">39</span> * v46 + <span class="number">52</span> * v48 + <span class="number">9</span> * v49 + <span class="number">62</span> * v50 + <span class="number">37</span> * v51 + <span class="number">84</span> * v52, v8 == <span class="number">48</span> * v50 + <span class="number">14</span> * v48 + <span class="number">23</span> * v46 + <span class="number">6</span> * v47 + <span class="number">74</span> * v49 + <span class="number">12</span> * v51 + <span class="number">83</span> * v52, v9 == <span class="number">15</span> * v51 + <span class="number">48</span> * v50 + <span class="number">92</span> * v48 + <span class="number">85</span> * v47 + <span class="number">27</span> * v46 + <span class="number">42</span> * v49 + <span class="number">72</span> * v52, v10 == <span class="number">26</span> * v51 + <span class="number">67</span> * v49 + <span class="number">6</span> * v47 + <span class="number">4</span> * v46 + <span class="number">3</span> * v48 + <span class="number">68</span> * v52, v11 == <span class="number">34</span> * v56 + <span class="number">12</span> * v53 + <span class="number">53</span> * v54 + <span class="number">6</span> * v55 + <span class="number">58</span> * v57 + <span class="number">36</span> * v58 + v59, v12 == <span class="number">27</span> * v57 + <span class="number">73</span> * v56 + <span class="number">12</span> * v55 + <span class="number">83</span> * v53 + <span class="number">85</span> * v54 + <span class="number">96</span> * v58 + <span class="number">52</span> * v59, v13 == <span class="number">24</span> * v55 + <span class="number">78</span> * v53 + <span class="number">53</span> * v54 + <span class="number">36</span> * v56 + <span class="number">86</span> * v57 + <span class="number">25</span> * v58 + <span class="number">46</span> * v59, v14 == <span class="number">78</span> * v54 + <span class="number">39</span> * v53 + <span class="number">52</span> * v55 + <span class="number">9</span> * v56 + <span class="number">62</span> * v57 + <span class="number">37</span> * v58 + <span class="number">84</span> * v59, v15 == <span class="number">48</span> * v57 + <span class="number">14</span> * v55 + <span class="number">23</span> * v53 + <span class="number">6</span> * v54 + <span class="number">74</span> * v56 + <span class="number">12</span> * v58 + <span class="number">83</span> * v59, v16 == <span class="number">15</span> * v58 + <span class="number">48</span> * v57 + <span class="number">92</span> * v55 + <span class="number">85</span> * v54 + <span class="number">27</span> * v53 + <span class="number">42</span> * v56 + <span class="number">72</span> * v59, v17 == <span class="number">26</span> * v58 + <span class="number">67</span> * v56 + <span class="number">6</span> * v54 + <span class="number">4</span> * v53 + <span class="number">3</span> * v55 + <span class="number">68</span> * v59, v18 == <span class="number">34</span> * v63 + <span class="number">12</span> * v60 + <span class="number">53</span> * v61 + <span class="number">6</span> * v62 + <span class="number">58</span> * v64 + <span class="number">36</span> * v65 + v66, v19 == <span class="number">27</span> * v64 + <span class="number">73</span> * v63 + <span class="number">12</span> * v62 + <span class="number">83</span> * v60 + <span class="number">85</span> * v61 + <span class="number">96</span> * v65 + <span class="number">52</span> * v66, v20 == <span class="number">24</span> * v62 + <span class="number">78</span> * v60 + <span class="number">53</span> * v61 + <span class="number">36</span> * v63 + <span class="number">86</span> * v64 + <span class="number">25</span> * v65 + <span class="number">46</span> * v66, v21 == <span class="number">78</span> * v61 + <span class="number">39</span> * v60 + <span class="number">52</span> * v62 + <span class="number">9</span> * v63 + <span class="number">62</span> * v64 + <span class="number">37</span> * v65 + <span class="number">84</span> * v66, v22 == <span class="number">48</span> * v64 + <span class="number">14</span> * v62 + <span class="number">23</span> * v60 + <span class="number">6</span> * v61 + <span class="number">74</span> * v63 + <span class="number">12</span> * v65 + <span class="number">83</span> * v66, v23 == <span class="number">15</span> * v65 + <span class="number">48</span> * v64 + <span class="number">92</span> * v62 + <span class="number">85</span> * v61 + <span class="number">27</span> * v60 + <span class="number">42</span> * v63 + <span class="number">72</span> * v66, v24 == <span class="number">26</span> * v65 + <span class="number">67</span> * v63 + <span class="number">6</span> * v61 + <span class="number">4</span> * v60 + <span class="number">3</span> * v62 + <span class="number">68</span> * v66, v25 == <span class="number">34</span> * v70 + <span class="number">12</span> * v67 + <span class="number">53</span> * v68 + <span class="number">6</span> * v69 + <span class="number">58</span> * v71 + <span class="number">36</span> * v72 + v73, v26 == <span class="number">27</span> * v71 + <span class="number">73</span> * v70 + <span class="number">12</span> * v69 + <span class="number">83</span> * v67 + <span class="number">85</span> * v68 + <span class="number">96</span> * v72 + <span class="number">52</span> * v73, v27 == <span class="number">24</span> * v69 + <span class="number">78</span> * v67 + <span class="number">53</span> * v68 + <span class="number">36</span> * v70 + <span class="number">86</span> * v71 + <span class="number">25</span> * v72 + <span class="number">46</span> * v73, v28 == <span class="number">78</span> * v68 + <span class="number">39</span> * v67 + <span class="number">52</span> * v69 + <span class="number">9</span> * v70 + <span class="number">62</span> * v71 + <span class="number">37</span> * v72 + <span class="number">84</span> * v73, v29 == <span class="number">48</span> * v71 + <span class="number">14</span> * v69 + <span class="number">23</span> * v67 + <span class="number">6</span> * v68 + <span class="number">74</span> * v70 + <span class="number">12</span> * v72 + <span class="number">83</span> * v73, v30 == <span class="number">15</span> * v72 + <span class="number">48</span> * v71 + <span class="number">92</span> * v69 + <span class="number">85</span> * v68 + <span class="number">27</span> * v67 + <span class="number">42</span> * v70 + <span class="number">72</span> * v73, v31 == <span class="number">26</span> * v72 + <span class="number">67</span> * v70 + <span class="number">6</span> * v68 + <span class="number">4</span> * v67 + <span class="number">3</span> * v69 + <span class="number">68</span> * v73, v32 == <span class="number">34</span> * v77 + <span class="number">12</span> * v74 + <span class="number">53</span> * v75 + <span class="number">6</span> * v76 + <span class="number">58</span> * v78 + <span class="number">36</span> * v79 + v80, v33 == <span class="number">27</span> * v78 + <span class="number">73</span> * v77 + <span class="number">12</span> * v76 + <span class="number">83</span> * v74 + <span class="number">85</span> * v75 + <span class="number">96</span> * v79 + <span class="number">52</span> * v80, v34 == <span class="number">24</span> * v76 + <span class="number">78</span> * v74 + <span class="number">53</span> * v75 + <span class="number">36</span> * v77 + <span class="number">86</span> * v78 + <span class="number">25</span> * v79 + <span class="number">46</span> * v80, v35 == <span class="number">78</span> * v75 + <span class="number">39</span> * v74 + <span class="number">52</span> * v76 + <span class="number">9</span> * v77 + <span class="number">62</span> * v78 + <span class="number">37</span> * v79 + <span class="number">84</span> * v80, v36 == <span class="number">48</span> * v78 + <span class="number">14</span> * v76 + <span class="number">23</span> * v74 + <span class="number">6</span> * v75 + <span class="number">74</span> * v77 + <span class="number">12</span> * v79 + <span class="number">83</span> * v80, v37 == <span class="number">15</span> * v79 + <span class="number">48</span> * v78 + <span class="number">92</span> * v76 + <span class="number">85</span> * v75 + <span class="number">27</span> * v74 + <span class="number">42</span> * v77 + <span class="number">72</span> * v80, v38 == <span class="number">26</span> * v79 + <span class="number">67</span> * v77 + <span class="number">6</span> * v75 + <span class="number">4</span> * v74 + <span class="number">3</span> * v76 + <span class="number">68</span> * v80, v39 == <span class="number">34</span> * v84 + <span class="number">12</span> * v81 + <span class="number">53</span> * v82 + <span class="number">6</span> * v83 + <span class="number">58</span> * v85 + <span class="number">36</span> * v86 + v87, v40 == <span class="number">27</span> * v85 + <span class="number">73</span> * v84 + <span class="number">12</span> * v83 + <span class="number">83</span> * v81 + <span class="number">85</span> * v82 + <span class="number">96</span> * v86 + <span class="number">52</span> * v87, v41 == <span class="number">24</span> * v83 + <span class="number">78</span> * v81 + <span class="number">53</span> * v82 + <span class="number">36</span> * v84 + <span class="number">86</span> * v85 + <span class="number">25</span> * v86 + <span class="number">46</span> * v87, v42 == <span class="number">78</span> * v82 + <span class="number">39</span> * v81 + <span class="number">52</span> * v83 + <span class="number">9</span> * v84 + <span class="number">62</span> * v85 + <span class="number">37</span> * v86 + <span class="number">84</span> * v87, v43 == <span class="number">48</span> * v85 + <span class="number">14</span> * v83 + <span class="number">23</span> * v81 + <span class="number">6</span> * v82 + <span class="number">74</span> * v84 + <span class="number">12</span> * v86 + <span class="number">83</span> * v87, v44 == <span class="number">15</span> * v86 + <span class="number">48</span> * v85 + <span class="number">92</span> * v83 + <span class="number">85</span> * v82 + <span class="number">27</span> * v81 + <span class="number">42</span> * v84 + <span class="number">72</span> * v87, v45 == <span class="number">26</span> * v86 + <span class="number">67</span> * v84 + <span class="number">6</span> * v82 + <span class="number">4</span> * v81 + <span class="number">3</span> * v83 + <span class="number">68</span> * v87)</span><br><span class="line"></span><br><span class="line"><span class="comment"># solve</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> solver.check() != sat:</span><br><span class="line">    print(<span class="string">&quot;failed&quot;</span>)</span><br><span class="line">    exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">m = solver.model()</span><br><span class="line"></span><br><span class="line">res = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">print(m[v46].as_long())</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">46</span>, <span class="number">46</span> + <span class="number">42</span>):</span><br><span class="line">    res += chr(m[globals()[<span class="string">&#x27;v&#x27;</span> + str(i)]].as_long())</span><br><span class="line"></span><br><span class="line">print(res)</span><br></pre></td></tr></table></figure>
+
+<h1 id="hyperthreading"><a href="#hyperthreading" class="headerlink" title="hyperthreading"></a>hyperthreading</h1><h2 id="基本知识-1"><a href="#基本知识-1" class="headerlink" title="基本知识"></a>基本知识</h2><ul>
+<li>注意线性加密=-=</li>
+<li>反汇编的要求是不能有未定义语句，注意把这些语句全部patch掉再创建函数<h2 id="题解-1"><a href="#题解-1" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<ol>
+<li>IDA打开，可以直接反汇编，由字符串<code>please input your flag</code>定位到关键代码</li>
+<li>线程锁相关？进入到第一个加密函数，去除花指令</li>
+<li>这里的一个关键是注意到这个加密函数一次只调用了输入字符串中的一个字符，进行移位加密</li>
+<li>再去下一个加密函数确认：同样对输入字符串进行了常数级加密</li>
+<li>由以上两步即可以看出，程序对输入字符串进行了线性加密，爆破密码表<ul>
+<li>这里的一个点是利用<a href="">我爱破解</a>特供版OD自动绕过了反动调。。。。</li>
+</ul>
+</li>
+<li>解密得flag</li>
+</ol>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1>
+      </section>
+
+      <section class="article-footer">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">#CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reverse-Engineering/" rel="tag">#Reverse Engineering</a></li></ul>
+      </section>
+
+      <section class="article-navs">
+        
+<nav class="card-container card-article-nav">
+  <div class="card-wrap">
+    
+      <div id="article-nav-newer" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(https://anortho.site/privateImgurl/2020/08/9.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/2020/08/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%B7%A5%E7%A8%8B%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%89%EF%BC%89/"></a>
+          <strong class="article-nav-caption">Newer</strong>
+          <p class="article-nav-title">
+            
+              小程序工程记录（三）
+            
+          </p>
+        </article>
+      </div>
+    
+    
+      <div id="article-nav-older" class="card-item">
+        <article>
+          
+          <a class="card-link article-nav-link" href="/2020/08/16/CTF-re-81620/"></a>
+          <strong class="article-nav-caption">Older</strong>
+          <p class="article-nav-title">
+            
+              CTF-re-81620.md
+            
+          </p>
+        </article>
+      </div>
+    
+  </div>
+</nav>
+
+      </section>
+
+      
+
+  
+  
+
+  
+  
+
+
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+     
+    <p>&copy; 2020 <a href="/" target="_blank">heacsing</a></p>
+
+    
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+  <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+  <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+</svg> 
+  </div>
+
+  
+  
+
+
+  <!-- aplayer 音频 start -->
+  <link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  <script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script type="text/javascript">
+    const aplayer = document.querySelectorAll(".aplayer");
+    aplayer && initaplayer(aplayer);
+    function initaplayer(els) {
+      let elsArr = Array.from(els);
+      elsArr.forEach(el => {
+        new APlayer({
+          container: el,
+          audio: { ...el.dataset },
+          theme: "#b7daff",
+          lrcType: 3,
+          autoplay: false,
+          loop: false,
+          mutex: true,
+        });
+      });
+    }
+  </script>
+  <!-- aplayer 音频 end -->
+  
+
+<!-- dplayer 视频 start -->
+<script type="text/javascript" src="https://unpkg.com/dplayer@1.25.1/dist/DPlayer.min.js"></script>
+<script type="text/javascript">
+  const dplayer = document.querySelectorAll(".dplayer");
+  dplayer && initDPlayer(dplayer);
+  function initDPlayer(els) {
+    let elsArr = Array.from(els);
+    elsArr.forEach(el => {
+      let url = el.dataset.url;
+      let cover = el.dataset.cover;
+      let subtitle = el.dataset.subtitle;
+
+      let options = {
+        container: el,
+        video: { url: url, pic: cover },
+        theme: "#b7daff",
+        autoplay: false,
+        loop: false,
+        mutex: true,
+      }
+
+      if (subtitle) {
+        options.subtitle = {
+          url: el.dataset.subtitle,
+        }
+      }
+      new DPlayer(options);
+    });
+  }
+</script>
+<!-- dplayer 视频 end -->
+
+
+<!-- waterfall 瀑布流 start -->
+
+<script src="/lib/waterfall.min.js"></script>
+
+<script type="text/javascript">
+
+const waterfalls = document.querySelectorAll(".waterfall-container");
+
+if (waterfalls && waterfalls.length > 0) {
+  waterfalls.forEach((waterfall, index) => {
+    let cls = "waterfall-container-" + index;
+    waterfall.classList.add(cls);
+    initWaterfall(cls, waterfall);
+  });
+}
+
+function initWaterfall(selector, el) {
+  const options = {};
+  if (Object.keys(el.dataset).length > 0) {
+    for (let k in el.dataset) {
+      options[k] = el.dataset[k];
+    }
+  }
+  waterfall(`.${selector}`, options);
+}
+</script>
+<!-- waterfall 瀑布流 end -->
+
+
+  <!-- zoom start -->
+  
+<script src="/lib/zoom.min.js"></script>
+
+  <script type="text/javascript">
+    document.querySelector(".article-content") && zoom(".article-content");
+  </script>
+  <!-- zoom end -->
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/poi.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
